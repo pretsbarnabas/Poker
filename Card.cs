@@ -6,34 +6,37 @@ using System.Threading.Tasks;
 
 namespace Poker
 {
-    internal class Card
+    public class Card
     {
         public int DefaultValue { get; set; }
         public (int lowValue,int highValue) AceValue{get;set;}
         public string Suite { get; set; }
         public bool isAce { get; set; }
 
-        public Card(char val, string suite)
+        public Card(string raw)
         {
-            switch (val)
+            string value = raw.Split("-")[1];
+            switch (value)
             {
-                case 'A':
+                case "a":
                     AceValue = (1, 13);
+                    DefaultValue = 1;
                     isAce = true;
                     break;
-                case 'K':
+                case "k":
                     DefaultValue = 13;
                     break;
-                case 'Q':
+                case "q":
                     DefaultValue = 12;
                     break;
-                case 'J':
+                case "j":
                     DefaultValue = 11;
                     break;
                 default:
-                    DefaultValue = (int)val;
+                    DefaultValue = int.Parse(value);
                     break;
             }
+            Suite = raw.Split("-")[0];
         }
     }
 }
