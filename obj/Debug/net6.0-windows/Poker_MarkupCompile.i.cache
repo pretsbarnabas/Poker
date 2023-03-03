@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-Z:\IKT 11\Poker\obj\Debug\net6.0-windows\
+Z:\wpf\Poker\obj\Debug\net6.0-windows\
 Poker
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-Z:\IKT 11\Poker\App.xaml
+Z:\wpf\Poker\App.xaml
 3-1345771539
 
 8-399287755
 194-200944676
 Game.xaml;MainWindow.xaml;Menu.xaml;
 
-False
+True
 
