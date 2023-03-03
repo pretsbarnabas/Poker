@@ -11,23 +11,24 @@ namespace Poker
         public int DefaultValue { get; set; }
         public (int lowValue,int highValue) AceValue{get;set;}
         public string Suite { get; set; }
-        public bool isAce { get; set; }
+        public bool isAce { get; set; } = false;
 
         public Card(char val, string suite)
         {
             switch (val)
             {
-                case 'A':
-                    AceValue = (1, 13);
+                case 'a':
+                    AceValue = (1, 14);
+                    DefaultValue = 14;
                     isAce = true;
                     break;
-                case 'K':
+                case 'k':
                     DefaultValue = 13;
                     break;
-                case 'Q':
+                case 'q':
                     DefaultValue = 12;
                     break;
-                case 'J':
+                case 'j':
                     DefaultValue = 11;
                     break;
                 default:
