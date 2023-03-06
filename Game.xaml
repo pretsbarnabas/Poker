@@ -8,12 +8,12 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Game" Background="White">
 
-    <Grid>
+    <Grid x:Name="grid_main">
+        <WrapPanel x:Name="wp_player" Margin="534,381,133,10"/>
+        <WrapPanel x:Name="wp_bot0" Margin="133,381,534,10"/>
+        <WrapPanel x:Name="wp_bot1" Margin="133,10,534,381"/>
+        <WrapPanel x:Name="wp_bot2" Margin="534,10,133,381"/>
         <Button Content="Back" Width="50" Height="50" Click="Back" Margin="740,390,10,10"></Button>
         <Ellipse HorizontalAlignment="Center" Height="262" Stroke="Black" VerticalAlignment="Center" Width="534" Fill="Sienna"/>
-        <WrapPanel x:Name="wp_player" Margin="464,356,190,10"/>
-        <WrapPanel x:Name="wp_bot0" Margin="157,356,497,10"/>
-        <WrapPanel x:Name="wp_bot1" Margin="157,10,497,356"/>
-        <WrapPanel x:Name="wp_bot2" Margin="464,5,190,361"/>
     </Grid>
 </Page>

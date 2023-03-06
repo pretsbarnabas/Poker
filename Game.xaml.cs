@@ -27,8 +27,13 @@ namespace Poker
         {
             InitializeComponent();
             List<Card> cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
-            Bot bot = new Bot(PopRandomCard(cards), PopRandomCard(cards));
-            Debug.WriteLine(bot.Cards[0].Suite + bot.Cards[0].DefaultValue);
+            List<Bot> bots = GenerateBots(cards);
+            for (int i = 0; i < bots.Count; i++)
+            {
+                FillWrapPanel((WrapPanel)grid_main.Children[i+1], bots[i]);
+            }
+            wp_player.Children.Add(GenerateImage("pic/1.gif"));
+            wp_player.Children.Add(GenerateImage("pic/2.gif"));
         }
 
         private void Back(object sender, RoutedEventArgs e)
@@ -42,6 +47,30 @@ namespace Poker
             list.RemoveAt(randomnum);
             return randomcard;
 
+        }
+        public Image GenerateImage(string path)
+        {
+            Image image = new Image();
+            string packUri = $"{path}";
+            image.Source = new ImageSourceConverter().ConvertFromString(packUri) as ImageSource;
+            image.Height = 100;
+            image.Width = 100;
+            return image;
+        }
+        public List<Bot> GenerateBots(List<Card> cards)
+        {
+            List<Bot> bots = new List<Bot>();
+            for (int i = 0; i < 3; i++)
+            {
+                Bot bot = new Bot(PopRandomCard(cards),PopRandomCard(cards));
+                bots.Add(bot);
+            }
+            return bots;
+        }
+        public void FillWrapPanel(WrapPanel wp, Bot bot)
+        {
+            wp.Children.Add(GenerateImage("pic/Hátlap.gif"));
+            wp.Children.Add(GenerateImage("pic/Hátlap.gif"));
         }
     }
 }
