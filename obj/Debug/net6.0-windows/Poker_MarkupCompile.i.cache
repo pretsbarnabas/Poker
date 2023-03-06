@@ -1,5 +1,5 @@
 ﻿Poker
-
+1.0.0.0
 
 winexe
 C#
@@ -12,9 +12,9 @@ TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 Z:\ikt 11\Poker\Poker\App.xaml
 3-1345771539
 
-5-117998249
+71401925129
 194237474483
 Game.xaml;MainWindow.xaml;Menu.xaml;
 
-False
+True
 

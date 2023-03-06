@@ -24,6 +24,6 @@
         <Button Grid.Row="3" Content="Play" FontSize="20" Click="Play"></Button>
         <Button Grid.Row="5" Content="Settings" FontSize="20" Click="Settings"></Button>
         <Button Grid.Row="7" Content="Close" FontSize="20" Click="Close"></Button>
-        <StackPanel x:Name="SettingsPanel" Height="Auto" Width="Auto" Visibility="Collapsed" Orientation="Vertical" Background="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.RowSpan="7"></StackPanel>
+        <StackPanel x:Name="SettingsPanel" Height="Auto" Width="200" Visibility="Collapsed" Orientation="Vertical" Background="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.RowSpan="7"></StackPanel>
     </Grid>
 </Page>
