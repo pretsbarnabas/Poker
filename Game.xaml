@@ -5,7 +5,6 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Poker"
       mc:Ignorable="d"
-      xmlns:fx="https://unknown6656.com/wpfpslib"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Game" Background="White">
 
