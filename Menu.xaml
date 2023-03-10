@@ -7,7 +7,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="550" d:DesignWidth="900"
       Title="Menu" Background="White">
-    <Grid Width="300" HorizontalAlignment="Center">
+    <Grid x:Name="gridMenu" Width="300" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="7*"></RowDefinition>
             <RowDefinition Height="5*"></RowDefinition>
@@ -22,7 +22,8 @@
         </Grid.RowDefinitions>
         <Label Grid.Row="1" Content="Poker" FontSize="45" FontFamily="Comic Sans MS" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
         <Button Grid.Row="3" Content="Play" FontSize="20" Click="Play"></Button>
-        <Button Grid.Row="5" Content="Settings" FontSize="20"></Button>
+        <Button Grid.Row="5" Content="Settings" FontSize="20" Click="Settings"></Button>
         <Button Grid.Row="7" Content="Close" FontSize="20" Click="Close"></Button>
+        <StackPanel x:Name="SettingsPanel" Height="Auto" Width="200" Visibility="Collapsed" Orientation="Vertical" Background="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.RowSpan="7"></StackPanel>
     </Grid>
 </Page>

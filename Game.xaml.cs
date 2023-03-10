@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,9 +14,13 @@ namespace Poker
     /// </summary>
     public partial class Game : Page
     {
+        Random random = new Random();
         public Game()
         {
             InitializeComponent();
+            List<Card> cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
+            Bot bot = new Bot(PopRandomCard(cards), PopRandomCard(cards));
+            Debug.WriteLine(bot.Cards[0].Suite + bot.Cards[0].DefaultValue);
         }
 
         private void Back(object sender, RoutedEventArgs e)
@@ -225,6 +231,13 @@ namespace Poker
 
             //High card
             return (1, CardClassHighestValue(allCard));
+        public Card PopRandomCard(List<Card> list)
+        {
+            int randomnum = random.Next(0, list.Count);
+            Card randomcard = list[randomnum];
+            list.RemoveAt(randomnum);
+            return randomcard;
+
         }
     }
 }
