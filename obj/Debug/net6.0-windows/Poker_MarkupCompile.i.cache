@@ -11,9 +11,15 @@ false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 Z:\wpf\Poker\App.xaml
 3-1345771539
+<<<<<<<< HEAD:obj/Debug/net6.0-windows/Poker_MarkupCompile.cache
+15462666679
+5-117998249
+195-498417496
+========
 
 91629363884
 194-200944676
+>>>>>>>> 3d9e73607c1c1dabe7dc31ead13f190bdf77cfa3:obj/Debug/net6.0-windows/Poker_MarkupCompile.i.cache
 Game.xaml;MainWindow.xaml;Menu.xaml;
 
 False
