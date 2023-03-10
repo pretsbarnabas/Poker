@@ -11,11 +11,15 @@ namespace Poker
         public int DefaultValue { get; set; }
         public (int lowValue,int highValue) AceValue{get;set;}
         public string Suite { get; set; }
-        public bool isAce { get; set; } = false;
+
+        public bool isAce { get; set; }
+        public string ImageNumber { get; set; }
 
         public Card(string raw)
         {
+            Suite = raw.Split("-")[0];
             string value = raw.Split("-")[1];
+            ImageNumber = raw.Split("-")[2];
             switch (value)
             {
                 case 'a':
@@ -36,7 +40,6 @@ namespace Poker
                     DefaultValue = int.Parse(value);
                     break;
             }
-            Suite = raw.Split("-")[0];
         }
     }
 }
