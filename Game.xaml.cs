@@ -47,34 +47,29 @@ namespace Poker
             bool isPoker = false;
             int pokerValue = 0;
             Dictionary<string, int> suites = new();
-            foreach (Card card in allCard)
+            int counter = 0;
+            for (int i = 0; i < allCard.Count-1; i++)
             {
-                for (int i = 0; i < allCard.Count; i++)
+                if (allCard[i].DefaultValue == allCard[i+1].DefaultValue)
                 {
-                    int counter = 1;
-                    if (allCard[i].DefaultValue == card.DefaultValue)
-                    {
-                        counter++;
-                        
-                    }
-                    else if (counter == 2)
-                    {
-                        pairs.Add(card);
-                        counter--;
-                    }
-                    else if (counter == 3)
-                    {
-                        drills.Add(card);
-                        counter++;
-                    }
-                    else if(counter == 4)
-                    {
-                        isPoker = true;
-                        pokerValue = card.DefaultValue;
-                        counter = 1;
-                    }
+                    pairs.Add(allCard[i]);
+                    counter++;
+                }
+                else
+                {
+                    counter = 0;
+
+                }
+                if (counter == 2)
+                {
+                    drills.Add(allCard[i]);
+                }
+                if (counter == 3)
+                {
+                    isPoker = true;
                 }
             }
+            //this.pairs = pairs.Distinct().Select(x => x.DefaultValue).ToList();
 
             foreach (Card card in allCard)
             {
@@ -114,6 +109,37 @@ namespace Poker
             }
 
             //Straight flush
+            string straightFlushSuit = "";
+            foreach (KeyValuePair<string, int> item in suites)
+            {
+                if (item.Value == 5)
+                {
+                    straightFlushSuit = item.Key;
+                }
+            }
+            if (straightFlushSuit!="")
+            {
+                List<Card> straightFlush = new();
+                int process = 0;
+                for (int i = 0; i < allCard.Count - 1; i++)
+                {
+                    if (allCard[i].DefaultValue == allCard[i + 1].DefaultValue + 1)
+                    {
+                        process++;
+                        straightFlush.Add(allCard[i]);
+                    }
+                    else
+                    {
+                        process = 0;
+                        straightFlush.Clear();
+                    }
+
+                }
+                if (process >= 4)
+                {
+                    return (9, CardClassHighestValue(straightFlush));
+                }
+            }
 
             //Poker
             if (isPoker)
@@ -153,7 +179,26 @@ namespace Poker
             }
 
             //Straight
+            List<Card> straight = new();
+            int folyamat = 0;
+            for (int i = 0; i < allCard.Count-1; i++)
+            {
+                if (allCard[i].DefaultValue== allCard[i+1].DefaultValue+1)
+                {
+                    folyamat++;
+                    straight.Add(allCard[i]);
+                }
+                else
+                {
+                    folyamat = 0;
+                    straight.Clear();
+                }
 
+            }
+            if (folyamat>=4)
+            {
+                return (5,CardClassHighestValue(straight));
+            }
 
 
             //Drill
@@ -168,7 +213,7 @@ namespace Poker
 
             //Pair,two pair
 
-             if (pairs.Count == 1)
+            if (pairs.Count == 1)
             {
                 return (2, pairs[0].DefaultValue);
             }
