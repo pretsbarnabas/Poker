@@ -29,6 +29,8 @@ namespace Poker
             List<Card> cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
             Bot bot = new Bot(PopRandomCard(cards), PopRandomCard(cards));
             Debug.WriteLine(bot.Cards[0].Suite + bot.Cards[0].DefaultValue);
+
+            ZsetonSlider.Value = Menu.settings["Zsetonok"];
         }
 
         private void Back(object sender, RoutedEventArgs e)
@@ -42,6 +44,11 @@ namespace Poker
             list.RemoveAt(randomnum);
             return randomcard;
 
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Menu.settings["Zsetonok"] = Convert.ToInt32(ZsetonSlider.Value);
         }
     }
 }

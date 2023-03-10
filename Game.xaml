@@ -8,7 +8,33 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Game" Background="White">
 
-    <Grid>
-        
+    <Grid x:Name="Board">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button Grid.Column="0" Grid.Row="2" Width="50" Height="40" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15" Click="Back"></Button>
+        <Grid x:Name="Buttons" Grid.ColumnSpan="1" Grid.RowSpan="3" Grid.Column="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="7*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Name="ZsetonSliderValue" Content="{Binding ElementName=ZsetonSlider, Path=Value}" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
+            <Slider x:Name="ZsetonSlider" Grid.Row="2" VerticalAlignment="Center" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="10000" IsSnapToTickEnabled="True" TickFrequency="1"></Slider>
+            <Button Grid.Row="3" Margin="5" Content="Raise"></Button>
+            <Button Grid.Row="4" Margin="5" Content="Check"></Button>
+            <Button Grid.Row="5" Margin="5" Content="Fold"></Button>
+        </Grid>
     </Grid>
 </Page>

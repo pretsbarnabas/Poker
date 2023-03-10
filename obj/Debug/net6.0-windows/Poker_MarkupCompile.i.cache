@@ -4,23 +4,17 @@
 winexe
 C#
 .cs
-Z:\wpf\Poker\obj\Debug\net6.0-windows\
+Z:\ikt 11\Poker\poger\Poker\obj\Debug\net6.0-windows\
 Poker
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-Z:\wpf\Poker\App.xaml
+Z:\ikt 11\Poker\poger\Poker\App.xaml
 3-1345771539
-<<<<<<<< HEAD:obj/Debug/net6.0-windows/Poker_MarkupCompile.cache
-15462666679
-5-117998249
-195-498417496
-========
 
 91629363884
-194-200944676
->>>>>>>> 3d9e73607c1c1dabe7dc31ead13f190bdf77cfa3:obj/Debug/net6.0-windows/Poker_MarkupCompile.i.cache
+194237474483
 Game.xaml;MainWindow.xaml;Menu.xaml;
 
-False
+True
 
