@@ -23,3 +23,6 @@ Z:\ikt 11\Poker\Poker\obj\Debug\net6.0-windows\refint\Poker.dll
 Z:\ikt 11\Poker\Poker\obj\Debug\net6.0-windows\Poker.pdb
 Z:\ikt 11\Poker\Poker\obj\Debug\net6.0-windows\Poker.genruntimeconfig.cache
 Z:\ikt 11\Poker\Poker\obj\Debug\net6.0-windows\ref\Poker.dll
+Z:\ikt 11\Poker\Poker\bin\Debug\net6.0-windows\wpfpslib.dll
+Z:\ikt 11\Poker\Poker\obj\Debug\net6.0-windows\Poker_Content.g.cs
+Z:\ikt 11\Poker\Poker\obj\Debug\net6.0-windows\Poker.csproj.CopyComplete
