@@ -14,5 +14,8 @@
         <WrapPanel x:Name="wp_bot2" Margin="534,10,133,381"/>
         <Button Content="Back" Width="50" Height="50" Click="Back" Margin="740,390,10,10"></Button>
         <Ellipse HorizontalAlignment="Center" Height="262" Stroke="Black" VerticalAlignment="Center" Width="534" Fill="Sienna"/>
+        <Grid x:Name="grid_chips" Margin="322,276,322,114"/>
+        <Label x:Name="lb_playerMoney" Content="Label" HorizontalAlignment="Left" Margin="589,356,0,0" VerticalAlignment="Top"/>
+
     </Grid>
 </Page>
