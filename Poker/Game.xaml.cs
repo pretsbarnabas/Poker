@@ -22,10 +22,12 @@ namespace Poker
     public partial class Game : Page
     {
         Random random = new Random();
+        int currentZseton;
         public Game()
         {
             InitializeComponent();
-            ZsetonSlider.Value = Menu.settings["Zsetonok"];
+            ZsetonSlider.Maximum = Menu.settings["Zsetonok"];
+            ZsetonSlider.Value = Menu.settings["Zsetonok"] / 2;
             int numberofbots = 3;
             List<Card> cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
             List<Bot> bots = GenerateBots(cards,numberofbots);
@@ -258,7 +260,7 @@ namespace Poker
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            Menu.settings["Zsetonok"] = Convert.ToInt32(ZsetonSlider.Value);
+            currentZseton = Convert.ToInt32(ZsetonSlider.Value);
         }
         
         public Image LoadImage(string path)
