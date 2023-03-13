@@ -277,7 +277,7 @@ namespace Poker
             {
                 Bot bot = new Bot(PopRandomCard(cards),PopRandomCard(cards));
                 bots.Add(bot);
-                FillWrapPanel((WrapPanel)grid_main.Children[i + 1], bots[i]);
+                FillWrapPanel((WrapPanel)Board.Children[i + 1], bots[i]);
             }
             return bots;
         }
