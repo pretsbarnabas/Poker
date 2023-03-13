@@ -7,12 +7,38 @@
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Game" Background="White">
-    <Grid x:Name="grid_main">
-        <WrapPanel x:Name="wp_player" Margin="534,381,133,10"/>
-        <WrapPanel x:Name="wp_bot0" Margin="133,381,534,10"/>
-        <WrapPanel x:Name="wp_bot1" Margin="133,10,534,381"/>
-        <WrapPanel x:Name="wp_bot2" Margin="534,10,133,381"/>
-        <Button Content="Back" Width="50" Height="50" Click="Back" Margin="740,390,10,10"></Button>
-        <Ellipse HorizontalAlignment="Center" Height="262" Stroke="Black" VerticalAlignment="Center" Width="534" Fill="Sienna"/>
+    <Grid x:Name="Board">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button Grid.Column="0" Grid.Row="2" Width="50" Height="40" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15" Click="Back"></Button>
+        <WrapPanel x:Name="wp_player" Grid.Column="2" Grid.Row="2"/>
+        <WrapPanel x:Name="wp_bot0" Grid.Column="1" Grid.Row="2"/>
+        <WrapPanel x:Name="wp_bot1" Grid.Column="1" Grid.Row="0"/>
+        <WrapPanel x:Name="wp_bot2" Grid.Column="2" Grid.Row="0"/>
+        <Ellipse HorizontalAlignment="Center" Height="180" Stroke="Black" VerticalAlignment="Center" Width="500" Fill="Sienna" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"/>
+        <Grid x:Name="Buttons" Grid.ColumnSpan="1" Grid.RowSpan="3" Grid.Column="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="7*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Name="ZsetonSliderValue" Content="{Binding ElementName=ZsetonSlider, Path=Value}" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
+            <Slider x:Name="ZsetonSlider" Grid.Row="2" VerticalAlignment="Center" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="10000" IsSnapToTickEnabled="True" TickFrequency="1"></Slider>
+            <Button Grid.Row="3" Margin="5" Content="Raise"></Button>
+            <Button Grid.Row="4" Margin="5" Content="Check"></Button>
+            <Button Grid.Row="5" Margin="5" Content="Fold"></Button>
+        </Grid>
     </Grid>
 </Page>

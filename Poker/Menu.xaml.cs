@@ -20,10 +20,13 @@ namespace Poker
     /// </summary>
     public partial class Menu : Page
     {
-            public Dictionary<string, int> settings = new Dictionary<string, int>();
+            public static Dictionary<string, int> settings = new Dictionary<string, int>();
         public Menu()
         {
+            if (settings.Count == 0)
+            {
             settings.Add("Zsetonok", 2000);     //default settings go here
+            }
 
 
             InitializeComponent();

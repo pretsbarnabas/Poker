@@ -11,7 +11,6 @@ namespace Poker
         public int DefaultValue { get; set; }
         public (int lowValue,int highValue) AceValue{get;set;}
         public string Suite { get; set; }
-
         public bool isAce { get; set; }
         public string ImageNumber { get; set; }
 
