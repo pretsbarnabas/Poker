@@ -60,7 +60,7 @@ namespace Poker
         }
         private (int, int) HandCheck(List<Card> cardsTable, List<Card> hand)
         {
-            List<Card> allCard = new List<Card>();
+            List<Card> allCard = new();
             allCard.AddRange(cardsTable);
             allCard.AddRange(hand);
             allCard = allCard.OrderBy(x => x.DefaultValue).ToList();
@@ -89,6 +89,7 @@ namespace Poker
                 if (counter == 3)
                 {
                     isPoker = true;
+                    pokerValue = allCard[i].DefaultValue;
                 }
             }
             //this.pairs = pairs.Distinct().Select(x => x.DefaultValue).ToList();
@@ -105,7 +106,7 @@ namespace Poker
                 }
             }
 
-            //Royal flush
+            //Royal flush - jó
             string flushSuit = "";
             foreach (KeyValuePair<string, int> item in suites)
             {
@@ -130,7 +131,7 @@ namespace Poker
                 }
             }
 
-            //Straight flush
+            //Straight flush - jó
             string straightFlushSuit = "";
             foreach (KeyValuePair<string, int> item in suites)
             {
@@ -145,7 +146,7 @@ namespace Poker
                 int process = 0;
                 for (int i = 0; i < allCard.Count - 1; i++)
                 {
-                    if (allCard[i].DefaultValue == allCard[i + 1].DefaultValue + 1)
+                    if (allCard[i + 1].DefaultValue - allCard[i].DefaultValue == 1)
                     {
                         process++;
                         straightFlush.Add(allCard[i]);
@@ -163,21 +164,22 @@ namespace Poker
                 }
             }
 
-            //Poker
+            //Poker - jó
             if (isPoker)
             {
-                return (9, pokerValue);
+                return (8, pokerValue);
             }
             //Full house
+            pairs = pairs.Where(p => !drills.Any(x => x.DefaultValue == p.DefaultValue && x.Suite == p.Suite)).ToList();
             if (pairs.Count >= 1 && drills.Count >= 1)
             {
                 List<Card> pairsDrill = new();
                 pairsDrill.AddRange(drills);
                 pairsDrill.AddRange(pairs);
-                return (7, CardClassHighestValue(pairs));
+                return (7, CardClassHighestValue(drills));
             }
 
-            //Flush
+            //Flush - jó
 
             flushSuit = "";
             foreach (KeyValuePair<string, int> item in suites)
@@ -200,12 +202,12 @@ namespace Poker
                 return (6, max);
             }
 
-            //Straight
+            //Straight - jó
             List<Card> straight = new();
             int folyamat = 0;
             for (int i = 0; i < allCard.Count - 1; i++)
             {
-                if (allCard[i].DefaultValue == allCard[i + 1].DefaultValue + 1)
+                if (allCard[i + 1].DefaultValue - allCard[i].DefaultValue == 1)
                 {
                     folyamat++;
                     straight.Add(allCard[i]);
@@ -224,28 +226,24 @@ namespace Poker
 
 
             //Drill
-            if (drills.Count == 1)
-            {
-                return (4, drills[0].DefaultValue);
-            }
-            else
+            if (drills.Count >= 1)
             {
                 return (4, CardClassHighestValue(drills));
             }
 
-            //Pair,two pair
+            //Pair,two pair - jó
 
             if (pairs.Count == 1)
             {
                 return (2, pairs[0].DefaultValue);
             }
-            else if (pairs.Count == 2)
+            else if (pairs.Count >= 2)
             {
 
                 return (3, CardClassHighestValue(pairs));
             }
 
-            //High card
+            //High card - jó
             return (1, CardClassHighestValue(allCard));
         }
         
