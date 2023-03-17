@@ -25,7 +25,12 @@
         <WrapPanel x:Name="wp_bot2" Grid.Column="2" Grid.Row="0"/>
         <Label x:Name="lb_playerMoney" Content="Label" HorizontalAlignment="Left" Margin="589,356,0,0" VerticalAlignment="Top"/>
         <Button Grid.Column="0" Grid.Row="2" Width="50" Height="40" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15" Click="Back"></Button>
-        <Grid x:Name="Table" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
+        
+        
+        
+        
+        
+        <Grid x:Name="Table" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" SizeChanged="gridSizeChange">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
@@ -35,16 +40,18 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
-            <Ellipse HorizontalAlignment="Center" Height="180" Stroke="Black" VerticalAlignment="Center" Width="500" Fill="Sienna" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="3"/>
+            <Ellipse x:Name="tableEllipse" HorizontalAlignment="Center" Height="180" Stroke="Black" VerticalAlignment="Center" Width="500" Fill="Sienna" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="3"/>
 
-            <WrapPanel x:Name="WPTableCards" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
+            <!--<WrapPanel x:Name="WPTableCards" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
                 <WrapPanel.Resources>
                     <Style TargetType="{x:Type ContentPresenter}">
                         <Setter Property="Margin" Value="5"/>
                     </Style>
                 </WrapPanel.Resources>
-            </WrapPanel>
-            
+            </WrapPanel>-->
+            <Grid x:Name="grCards" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                
+            </Grid>
             <Grid x:Name="grid_playerchips" Grid.Row="2" Grid.Column="1" Panel.ZIndex="2" RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
                     <TransformGroup>
@@ -60,6 +67,12 @@
             <Grid x:Name="grid_bot1" Grid.Column="0" Grid.Row="0"></Grid>
             <Grid x:Name="grid_bot2" Grid.Column="1" Grid.Row="0"></Grid>
         </Grid>
+        
+        
+        
+        
+        
+        
         <Grid x:Name="Buttons" Grid.ColumnSpan="1" Grid.RowSpan="3" Grid.Column="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="7*"></RowDefinition>

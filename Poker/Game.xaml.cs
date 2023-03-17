@@ -33,17 +33,16 @@ namespace Poker
             List<Card> cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
             List<Bot> bots = GenerateBots(cards,numberofbots);
             GeneratePlayerCards(cards);
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 4; i++)
             {
-                WPTableCards.Children.Add(LoadImage("10.gif", 50, 50));
+                Image img = (LoadImage("10.gif", 50, 50));
+                ColumnDefinition c = new();
+                grCards.ColumnDefinitions.Add(c);
+                Grid.SetColumn(img, i);
+                grCards.Children.Add(img);
             }
 
-            foreach (Image item in WPTableCards.Children)
-            {
-                item.Width = 50;
-                item.Margin = new Thickness(8);
-                item.Stretch = Stretch.Uniform;
-            }
+
             AddChips(2000);
         }
 
@@ -311,6 +310,32 @@ namespace Poker
         {
             wp.Children.Add(LoadImage("Hátlap.gif",100,100));
             wp.Children.Add(LoadImage("Hátlap.gif",100,100));
+        }
+
+        private void gridSizeChange(object sender, SizeChangedEventArgs e)
+        {
+            double gridWidth = Table.ActualWidth;
+            double gridHeight = Table.ActualHeight;
+            double cardGridHeight = grCards.ActualHeight;
+            Ellipse ellipse = Table.Children[0] as Ellipse;
+            ellipse.Width = gridWidth;
+            ellipse.Height = gridHeight;
+            foreach (Image img in grCards.Children)
+            {
+                double ratio = 0.688;
+                img.Height = grCards.ActualHeight;
+                img.Width = grCards.ActualHeight * ratio;
+            }
+            foreach (Image img in grid_playerchips.Children)
+            {
+                double ratio = 0.688;
+                img.Height = grid_playerchips.ActualHeight;
+                img.Width = grid_playerchips.ActualHeight * ratio;
+            }
+            int startingIndexCoin = 2;
+            int tableElementCount = Table.Children.Count;
+                
+
         }
     }
 }
