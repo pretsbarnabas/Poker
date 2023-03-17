@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,6 +24,8 @@ namespace Poker
     {
         Random random = new Random();
         int currentZseton;
+        List<Bot> bots;
+        bool raised;
 
         public Game()
         {
@@ -31,7 +34,7 @@ namespace Poker
             ZsetonSlider.Value = Menu.settings["Zsetonok"] / 2;
             int numberofbots = 3;
             List<Card> cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
-            List<Bot> bots = GenerateBots(cards,numberofbots);
+            bots = GenerateBots(cards,numberofbots);
             GeneratePlayerCards(cards);
             AddChips(2000);
         }
@@ -302,6 +305,23 @@ namespace Poker
         {
             wp.Children.Add(LoadImage("Hátlap.gif",100,100));
             wp.Children.Add(LoadImage("Hátlap.gif",100,100));
+        }
+        private void Check_Click(object sender, RoutedEventArgs e)
+        {
+            raised = false;
+            for (int i = 0; i < bots.Count; i++)
+            {
+                bots[i].Move(out raised, HandCheck(new List<Card>(), bots[i].Cards));
+                Delay(1000);
+            }
+        }
+        public void Delay(int miliseconds)
+        {
+            var t = Task.Run(async delegate
+            {
+                await Task.Delay(miliseconds);
+            });
+            t.Wait();
         }
     }
 }
