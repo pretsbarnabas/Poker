@@ -33,6 +33,17 @@ namespace Poker
             List<Card> cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
             List<Bot> bots = GenerateBots(cards,numberofbots);
             GeneratePlayerCards(cards);
+            for (int i = 0; i < 5; i++)
+            {
+                WPTableCards.Children.Add(LoadImage("10"));
+            }
+
+            foreach (Image item in WPTableCards.Children)
+            {
+                item.Width = 50;
+                item.Margin = new Thickness(8);
+                item.Stretch = Stretch.Uniform;
+            }
             AddChips(2000);
         }
 
@@ -59,8 +70,6 @@ namespace Poker
         {
             this.NavigationService.Navigate(new Uri("Menu.xaml", UriKind.Relative));
         }
-        
-        int highestHand = 0;
 
         private int CardClassHighestValue(List<Card> cardList)
         {
