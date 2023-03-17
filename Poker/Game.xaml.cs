@@ -22,10 +22,13 @@ namespace Poker
     public partial class Game : Page
     {
         Random random = new Random();
+        int currentZseton;
+
         public Game()
         {
             InitializeComponent();
-            ZsetonSlider.Value = Menu.settings["Zsetonok"];
+            ZsetonSlider.Maximum = Menu.settings["Zsetonok"];
+            ZsetonSlider.Value = Menu.settings["Zsetonok"] / 2;
             int numberofbots = 3;
             List<Card> cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
             List<Bot> bots = GenerateBots(cards,numberofbots);
@@ -41,13 +44,26 @@ namespace Poker
                 item.Margin = new Thickness(8);
                 item.Stretch = Stretch.Uniform;
             }
+            AddChips(2000);
+        }
+
+        private void AddChips(int money)
+        {
+            int numOfChips = money / 500;
+            for (int i = 0; i < numOfChips; i++)
+            {
+                grid_chips.Children.Add(LoadImage("chip.png", 50, 50));
+                Image image = (Image)grid_chips.Children[i];
+                image.Margin = new Thickness(i * 10, 0, 0, 0);
+            }
         }
 
         private void GeneratePlayerCards(List<Card>cards)
         {
-            Bot player = new Bot(PopRandomCard(cards), PopRandomCard(cards));
-            wp_player.Children.Add(LoadImage(player.Cards[0].ImageNumber));
-            wp_player.Children.Add(LoadImage(player.Cards[1].ImageNumber));
+            Bot player = new Bot(PopRandomCard(cards), PopRandomCard(cards), currentZseton);
+            wp_player.Children.Add(LoadImage(player.Cards[0].ImagePath,100,100));
+            wp_player.Children.Add(LoadImage(player.Cards[1].ImagePath,100,100));
+            lb_playerMoney.Content = $"{player.Money}";
         }
 
         private void Back(object sender, RoutedEventArgs e)
@@ -265,18 +281,19 @@ namespace Poker
 
         }
 
+
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            Menu.settings["Zsetonok"] = Convert.ToInt32(ZsetonSlider.Value);
+            currentZseton = Convert.ToInt32(ZsetonSlider.Value);
         }
         
-        public Image LoadImage(string path)
+        public Image LoadImage(string path, int height, int width)
         {
             Image image = new Image();
-            string packUri = $"pic/{path}.gif";
+            string packUri = $"pic/{path}";
             image.Source = new ImageSourceConverter().ConvertFromString(packUri) as ImageSource;
-            image.Height = 100;
-            image.Width = 100;
+            image.Height = height;
+            image.Width = width;
             return image;
         }
         public List<Bot> GenerateBots(List<Card> cards, int NumberOfBots)
@@ -284,7 +301,7 @@ namespace Poker
             List<Bot> bots = new List<Bot>();
             for (int i = 0; i < NumberOfBots; i++)
             {
-                Bot bot = new Bot(PopRandomCard(cards),PopRandomCard(cards));
+                Bot bot = new Bot(PopRandomCard(cards),PopRandomCard(cards), currentZseton);
                 bots.Add(bot);
                 FillWrapPanel((WrapPanel)Board.Children[i + 1], bots[i]);
             }
@@ -292,8 +309,8 @@ namespace Poker
         }
         public void FillWrapPanel(WrapPanel wp, Bot bot)
         {
-            wp.Children.Add(LoadImage("Hátlap"));
-            wp.Children.Add(LoadImage("Hátlap"));
+            wp.Children.Add(LoadImage("Hátlap.gif",100,100));
+            wp.Children.Add(LoadImage("Hátlap.gif",100,100));
         }
     }
 }

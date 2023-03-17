@@ -12,13 +12,13 @@ namespace Poker
         public (int lowValue,int highValue) AceValue{get;set;}
         public string Suite { get; set; }
         public bool isAce { get; set; }
-        public string ImageNumber { get; set; }
+        public string ImagePath { get; set; }
 
         public Card(string raw)
         {
             Suite = raw.Split("-")[0];
             string value = raw.Split("-")[1];
-            ImageNumber = raw.Split("-")[2];
+            ImagePath = raw.Split("-")[2];
             switch (value)
             {
                 case "a":

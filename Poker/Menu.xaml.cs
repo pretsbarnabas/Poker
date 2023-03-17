@@ -97,8 +97,15 @@ namespace Poker
 
         void CloseButtonClick(object sender, RoutedEventArgs e, TextBox ZsetonSzam)
         {
+            try
+            {
             settings["Zsetonok"] = Convert.ToInt32(ZsetonSzam.Text);
             SettingsPanel.Visibility= Visibility.Collapsed;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Invalid input", ">:(", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
