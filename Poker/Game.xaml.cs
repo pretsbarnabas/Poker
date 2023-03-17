@@ -315,11 +315,11 @@ namespace Poker
                 Delay(1000);
             }
         }
-        public void Delay(int miliseconds)
+        public void Delay(int milliseconds)
         {
             var t = Task.Run(async delegate
             {
-                await Task.Delay(miliseconds);
+                await Task.Delay(milliseconds);
             });
             t.Wait();
         }
