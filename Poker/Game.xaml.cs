@@ -22,7 +22,7 @@ namespace Poker
     public partial class Game : Page
     {
         Random random = new Random();
-        int defaultMoney = 1000;
+        int currentZseton;
 
         public Game()
         {
@@ -49,7 +49,7 @@ namespace Poker
 
         private void GeneratePlayerCards(List<Card>cards)
         {
-            Bot player = new Bot(PopRandomCard(cards), PopRandomCard(cards), defaultMoney);
+            Bot player = new Bot(PopRandomCard(cards), PopRandomCard(cards), currentZseton);
             wp_player.Children.Add(LoadImage(player.Cards[0].ImagePath,100,100));
             wp_player.Children.Add(LoadImage(player.Cards[1].ImagePath,100,100));
             lb_playerMoney.Content = $"{player.Money}";
@@ -292,7 +292,7 @@ namespace Poker
             List<Bot> bots = new List<Bot>();
             for (int i = 0; i < NumberOfBots; i++)
             {
-                Bot bot = new Bot(PopRandomCard(cards),PopRandomCard(cards), defaultMoney);
+                Bot bot = new Bot(PopRandomCard(cards),PopRandomCard(cards), currentZseton);
                 bots.Add(bot);
                 FillWrapPanel((WrapPanel)Board.Children[i + 1], bots[i]);
             }
