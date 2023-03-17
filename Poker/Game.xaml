@@ -26,7 +26,13 @@
         <Button Grid.Column="0" Grid.Row="2" Width="50" Height="40" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15" Click="Back"></Button>
         <Ellipse HorizontalAlignment="Center" Height="180" Stroke="Black" VerticalAlignment="Center" Width="500" Fill="Sienna" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"/>
         <Grid x:Name="GRTableCrads" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
-            <WrapPanel x:Name="WPTableCards" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center"></WrapPanel >
+            <WrapPanel x:Name="WPTableCards" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
+                <WrapPanel.Resources>
+                    <Style TargetType="{x:Type ContentPresenter}">
+                        <Setter Property="Margin" Value="5"/>
+                    </Style>
+                </WrapPanel.Resources>
+            </WrapPanel >
         </Grid>
         <Grid x:Name="Buttons" Grid.ColumnSpan="1" Grid.RowSpan="3" Grid.Column="3">
             <Grid.RowDefinitions>

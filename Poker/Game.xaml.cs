@@ -32,7 +32,14 @@ namespace Poker
             GeneratePlayerCards(cards);
             for (int i = 0; i < 5; i++)
             {
-                WPTableCards.Children.Add(LoadImage("Hátlap"));
+                WPTableCards.Children.Add(LoadImage("10"));
+            }
+
+            foreach (Image item in WPTableCards.Children)
+            {
+                item.Width = 50;
+                item.Margin = new Thickness(8);
+                item.Stretch = Stretch.Uniform;
             }
         }
 
@@ -47,7 +54,6 @@ namespace Poker
         {
             this.NavigationService.Navigate(new Uri("Menu.xaml", UriKind.Relative));
         }
-        
 
         private int CardClassHighestValue(List<Card> cardList)
         {
