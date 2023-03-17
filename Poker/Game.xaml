@@ -23,27 +23,42 @@
         <WrapPanel x:Name="wp_bot0" Grid.Column="1" Grid.Row="2"/>
         <WrapPanel x:Name="wp_bot1" Grid.Column="1" Grid.Row="0"/>
         <WrapPanel x:Name="wp_bot2" Grid.Column="2" Grid.Row="0"/>
-        <Grid x:Name="grid_chips" Grid.Row="1" Grid.Column="1" Margin="128,126,132,10" Panel.ZIndex="2" Grid.ColumnSpan="2" RenderTransformOrigin="0.5,0.5">
-            <Grid.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="-1" ScaleY="-1"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Grid.RenderTransform>
-        </Grid>
         <Label x:Name="lb_playerMoney" Content="Label" HorizontalAlignment="Left" Margin="589,356,0,0" VerticalAlignment="Top"/>
         <Button Grid.Column="0" Grid.Row="2" Width="50" Height="40" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15" Click="Back"></Button>
-        <Ellipse HorizontalAlignment="Center" Height="180" Stroke="Black" VerticalAlignment="Center" Width="500" Fill="Sienna" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"/>
-        <Grid x:Name="GRTableCrads" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
-            <WrapPanel x:Name="WPTableCards" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
+        <Grid x:Name="Table" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Ellipse HorizontalAlignment="Center" Height="180" Stroke="Black" VerticalAlignment="Center" Width="500" Fill="Sienna" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="3"/>
+
+            <WrapPanel x:Name="WPTableCards" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
                 <WrapPanel.Resources>
                     <Style TargetType="{x:Type ContentPresenter}">
                         <Setter Property="Margin" Value="5"/>
                     </Style>
                 </WrapPanel.Resources>
-            </WrapPanel >
+            </WrapPanel>
+            
+            <Grid x:Name="grid_playerchips" Grid.Row="2" Grid.Column="1" Panel.ZIndex="2" RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="-1" ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+            </Grid>
+            
+            <Grid x:Name="grid_bot0" Grid.Column="0" Grid.Row="2"></Grid>
+            <Grid x:Name="grid_bot1" Grid.Column="0" Grid.Row="0"></Grid>
+            <Grid x:Name="grid_bot2" Grid.Column="1" Grid.Row="0"></Grid>
         </Grid>
         <Grid x:Name="Buttons" Grid.ColumnSpan="1" Grid.RowSpan="3" Grid.Column="3">
             <Grid.RowDefinitions>

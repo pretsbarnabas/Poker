@@ -35,7 +35,7 @@ namespace Poker
             GeneratePlayerCards(cards);
             for (int i = 0; i < 5; i++)
             {
-                WPTableCards.Children.Add(LoadImage("10"));
+                WPTableCards.Children.Add(LoadImage("10.gif", 50, 50));
             }
 
             foreach (Image item in WPTableCards.Children)
@@ -52,8 +52,8 @@ namespace Poker
             int numOfChips = money / 500;
             for (int i = 0; i < numOfChips; i++)
             {
-                grid_chips.Children.Add(LoadImage("chip.png", 50, 50));
-                Image image = (Image)grid_chips.Children[i];
+                grid_playerchips.Children.Add(LoadImage("chip.png", 50, 50));
+                Image image = (Image)grid_playerchips.Children[i];
                 image.Margin = new Thickness(i * 10, 0, 0, 0);
             }
         }
