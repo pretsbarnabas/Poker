@@ -1,13 +1,19 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics.Metrics;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
-
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 namespace Poker
 {
     /// <summary>
@@ -17,9 +23,12 @@ namespace Poker
     {
         Random random = new Random();
         int defaultMoney = 1000;
+
         public Game()
         {
             InitializeComponent();
+            ZsetonSlider.Maximum = Menu.settings["Zsetonok"];
+            ZsetonSlider.Value = Menu.settings["Zsetonok"] / 2;
             int numberofbots = 3;
             List<Card> cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
             List<Bot> bots = GenerateBots(cards,numberofbots);
@@ -50,7 +59,7 @@ namespace Poker
         {
             this.NavigationService.Navigate(new Uri("Menu.xaml", UriKind.Relative));
         }
-
+        
         int highestHand = 0;
 
         private int CardClassHighestValue(List<Card> cardList)
@@ -67,7 +76,7 @@ namespace Poker
         }
         private (int, int) HandCheck(List<Card> cardsTable, List<Card> hand)
         {
-            List<Card> allCard = new List<Card>();
+            List<Card> allCard = new();
             allCard.AddRange(cardsTable);
             allCard.AddRange(hand);
             allCard = allCard.OrderBy(x => x.DefaultValue).ToList();
@@ -96,6 +105,7 @@ namespace Poker
                 if (counter == 3)
                 {
                     isPoker = true;
+                    pokerValue = allCard[i].DefaultValue;
                 }
             }
             //this.pairs = pairs.Distinct().Select(x => x.DefaultValue).ToList();
@@ -112,7 +122,7 @@ namespace Poker
                 }
             }
 
-            //Royal flush
+            //Royal flush - jó
             string flushSuit = "";
             foreach (KeyValuePair<string, int> item in suites)
             {
@@ -137,7 +147,7 @@ namespace Poker
                 }
             }
 
-            //Straight flush
+            //Straight flush - jó
             string straightFlushSuit = "";
             foreach (KeyValuePair<string, int> item in suites)
             {
@@ -152,7 +162,7 @@ namespace Poker
                 int process = 0;
                 for (int i = 0; i < allCard.Count - 1; i++)
                 {
-                    if (allCard[i].DefaultValue == allCard[i + 1].DefaultValue + 1)
+                    if (allCard[i + 1].DefaultValue - allCard[i].DefaultValue == 1)
                     {
                         process++;
                         straightFlush.Add(allCard[i]);
@@ -170,21 +180,22 @@ namespace Poker
                 }
             }
 
-            //Poker
+            //Poker - jó
             if (isPoker)
             {
-                return (9, pokerValue);
+                return (8, pokerValue);
             }
             //Full house
+            pairs = pairs.Where(p => !drills.Any(x => x.DefaultValue == p.DefaultValue && x.Suite == p.Suite)).ToList();
             if (pairs.Count >= 1 && drills.Count >= 1)
             {
                 List<Card> pairsDrill = new();
                 pairsDrill.AddRange(drills);
                 pairsDrill.AddRange(pairs);
-                return (7, CardClassHighestValue(pairs));
+                return (7, CardClassHighestValue(drills));
             }
 
-            //Flush
+            //Flush - jó
 
             flushSuit = "";
             foreach (KeyValuePair<string, int> item in suites)
@@ -207,12 +218,12 @@ namespace Poker
                 return (6, max);
             }
 
-            //Straight
+            //Straight - jó
             List<Card> straight = new();
             int folyamat = 0;
             for (int i = 0; i < allCard.Count - 1; i++)
             {
-                if (allCard[i].DefaultValue == allCard[i + 1].DefaultValue + 1)
+                if (allCard[i + 1].DefaultValue - allCard[i].DefaultValue == 1)
                 {
                     folyamat++;
                     straight.Add(allCard[i]);
@@ -231,30 +242,27 @@ namespace Poker
 
 
             //Drill
-            if (drills.Count == 1)
-            {
-                return (4, drills[0].DefaultValue);
-            }
-            else
+            if (drills.Count >= 1)
             {
                 return (4, CardClassHighestValue(drills));
             }
 
-            //Pair,two pair
+            //Pair,two pair - jó
 
             if (pairs.Count == 1)
             {
                 return (2, pairs[0].DefaultValue);
             }
-            else if (pairs.Count == 2)
+            else if (pairs.Count >= 2)
             {
 
                 return (3, CardClassHighestValue(pairs));
             }
 
-            //High card
+            //High card - jó
             return (1, CardClassHighestValue(allCard));
         }
+        
         public Card PopRandomCard(List<Card> list)
         {
             int randomnum = random.Next(0, list.Count);
@@ -263,6 +271,13 @@ namespace Poker
             return randomcard;
 
         }
+
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            currentZseton = Convert.ToInt32(ZsetonSlider.Value);
+        }
+        
         public Image LoadImage(string path, int height, int width)
         {
             Image image = new Image();
@@ -279,7 +294,7 @@ namespace Poker
             {
                 Bot bot = new Bot(PopRandomCard(cards),PopRandomCard(cards), defaultMoney);
                 bots.Add(bot);
-                FillWrapPanel((WrapPanel)grid_main.Children[i + 1], bots[i]);
+                FillWrapPanel((WrapPanel)Board.Children[i + 1], bots[i]);
             }
             return bots;
         }

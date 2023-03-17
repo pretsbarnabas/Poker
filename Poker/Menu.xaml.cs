@@ -20,10 +20,13 @@ namespace Poker
     /// </summary>
     public partial class Menu : Page
     {
-            public Dictionary<string, int> settings = new Dictionary<string, int>();
+            public static Dictionary<string, int> settings = new Dictionary<string, int>();
         public Menu()
         {
+            if (settings.Count == 0)
+            {
             settings.Add("Zsetonok", 2000);     //default settings go here
+            }
 
 
             InitializeComponent();
@@ -94,8 +97,15 @@ namespace Poker
 
         void CloseButtonClick(object sender, RoutedEventArgs e, TextBox ZsetonSzam)
         {
+            try
+            {
             settings["Zsetonok"] = Convert.ToInt32(ZsetonSzam.Text);
             SettingsPanel.Visibility= Visibility.Collapsed;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Invalid input", ">:(", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
