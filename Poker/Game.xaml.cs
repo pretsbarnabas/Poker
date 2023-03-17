@@ -24,10 +24,18 @@ namespace Poker
             List<Card> cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
             List<Bot> bots = GenerateBots(cards,numberofbots);
             GeneratePlayerCards(cards);
-            grid_chips.Children.Add(LoadImage("chip.png", 50, 50));
-            grid_chips.Children.Add(LoadImage("chip.png", 50, 50));
-            Image image = (Image)grid_chips.Children[1];
-            image.Margin = new Thickness(10, 0, 0, 0);
+            AddChips(2000);
+        }
+
+        private void AddChips(int money)
+        {
+            int numOfChips = money / 500;
+            for (int i = 0; i < numOfChips; i++)
+            {
+                grid_chips.Children.Add(LoadImage("chip.png", 50, 50));
+                Image image = (Image)grid_chips.Children[i];
+                image.Margin = new Thickness(i * 10, 0, 0, 0);
+            }
         }
 
         private void GeneratePlayerCards(List<Card>cards)
