@@ -317,25 +317,52 @@ namespace Poker
             double gridWidth = Table.ActualWidth;
             double gridHeight = Table.ActualHeight;
             double cardGridHeight = grCards.ActualHeight;
+            double ratio = 0.688;
             Ellipse ellipse = Table.Children[0] as Ellipse;
             ellipse.Width = gridWidth;
             ellipse.Height = gridHeight;
+            double height;
             foreach (Image img in grCards.Children)
             {
-                double ratio = 0.688;
+                
                 img.Height = grCards.ActualHeight;
                 img.Width = grCards.ActualHeight * ratio;
+                height = grCards.ActualHeight;
             }
             foreach (Image img in grid_playerchips.Children)
             {
-                double ratio = 0.688;
                 img.Height = grid_playerchips.ActualHeight;
                 img.Width = grid_playerchips.ActualHeight * ratio;
             }
-            int startingIndexCoin = 2;
-            int tableElementCount = Table.Children.Count;
-                
 
+            foreach (Image img in wp_player.Children)
+            {
+                img.Height = grCards.ActualHeight;
+                img.Width = grCards.ActualHeight * ratio;
+            }
+            foreach (Image img in wp_bot0.Children)
+            {
+                img.Height = grCards.ActualHeight;
+                img.Width = grCards.ActualHeight * ratio;
+            }
+            foreach (Image img in wp_bot1.Children)
+            {
+                img.Height = grCards.ActualHeight;
+                img.Width = grCards.ActualHeight * ratio;
+            }
+            foreach (Image img in wp_bot2.Children)
+            {
+                img.Height = grCards.ActualHeight;
+                img.Width = grCards.ActualHeight * ratio;
+            }
+            wp_player.HorizontalAlignment = HorizontalAlignment.Center;
+            wp_player.VerticalAlignment = VerticalAlignment.Center;
+            wp_bot0.HorizontalAlignment = HorizontalAlignment.Center;
+            wp_bot0.VerticalAlignment = VerticalAlignment.Center;
+            wp_bot1.HorizontalAlignment = HorizontalAlignment.Center;
+            wp_bot1.VerticalAlignment = VerticalAlignment.Center;
+            wp_bot2.HorizontalAlignment = HorizontalAlignment.Center;
+            wp_bot2.VerticalAlignment = VerticalAlignment.Center;
         }
     }
 }
