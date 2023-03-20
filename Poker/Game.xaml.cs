@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -52,7 +53,7 @@ namespace Poker
 
         private void GeneratePlayerCards(List<Card>cards)
         {
-            Bot player = new Bot(PopRandomCard(cards), PopRandomCard(cards), currentZseton);
+            Bot player = new Bot(PopRandomCard(cards), PopRandomCard(cards), currentZseton, 0);
             wp_player.Children.Add(LoadImage(player.Cards[0].ImagePath,100,100));
             wp_player.Children.Add(LoadImage(player.Cards[1].ImagePath,100,100));
             lb_playerMoney.Content = $"{player.Money}";
@@ -295,7 +296,7 @@ namespace Poker
             List<Bot> bots = new List<Bot>();
             for (int i = 0; i < NumberOfBots; i++)
             {
-                Bot bot = new Bot(PopRandomCard(cards),PopRandomCard(cards), currentZseton);
+                Bot bot = new Bot(PopRandomCard(cards),PopRandomCard(cards), currentZseton, i);
                 bots.Add(bot);
                 FillWrapPanel((WrapPanel)Board.Children[i + 1], bots[i]);
             }
@@ -309,10 +310,22 @@ namespace Poker
         private void Check_Click(object sender, RoutedEventArgs e)
         {
             raised = false;
+            Thread thread = new Thread(BotsMove); // megse lesz ez a 13. okom
+            thread.Start();
+        }
+        private void BotsMove()
+        {
             for (int i = 0; i < bots.Count; i++)
             {
                 bots[i].Move(out raised, HandCheck(new List<Card>(), bots[i].Cards));
-                Delay(1000);
+                if (bots[i].Cards.Count == 0)
+                {
+                    this.Dispatcher.Invoke(()=>{
+                        WrapPanel wp = (WrapPanel)Board.Children[i + 1];
+                        wp.Children.Clear();
+                    });
+                    Delay(1000);
+                }
             }
         }
         public void Delay(int milliseconds)

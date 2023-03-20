@@ -11,23 +11,26 @@ namespace Poker
     {
         public List<Card> Cards { get; set; }
         public int Money { get; set; }
-        public Bot(Card card1, Card card2, int defaultMoney)
+        public int Num { get; set; }
+        public Bot(Card card1, Card card2, int defaultMoney, int num)
         {
             Cards = new List<Card>();
             Cards.Add(card1);
             Cards.Add(card2);
             Money = defaultMoney;
+            Num = num;
         }
         public void Move(out bool raised, (int,int) hand)
         {
+            if (Cards.Count == 0) { raised = false; return; }
             Random random = new Random();
             double handstrength = ((double)hand.Item1 + (double)hand.Item2  ) / 28;
             double moneypercent = (double)Money / (double)Menu.settings["Zsetonok"];
             double winningchance = (double)handstrength * 0.8 + moneypercent * 0.2;
             Debug.WriteLine(winningchance);
-            if (winningchance < 0.3)
+            if (winningchance < 0.5)
             {
-                Debug.WriteLine("folds");
+                Fold();
                 raised = false;
             }
             else if(winningchance < 0.8)
@@ -43,5 +46,9 @@ namespace Poker
 
         }
 
+        private void Fold()
+        {
+            Cards.Clear();
+        }
     }
 }
