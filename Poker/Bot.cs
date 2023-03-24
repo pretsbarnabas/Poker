@@ -27,13 +27,13 @@ namespace Poker
             double handstrength = ((double)hand.Item1 + (double)hand.Item2  ) / 28;
             double moneypercent = (double)Money / (double)Menu.settings["Zsetonok"];
             double winningchance = (double)handstrength * 0.8 + moneypercent * 0.2;
-            Debug.WriteLine(winningchance);
-            if (winningchance < 0.5)
+            if (winningchance < 0.3)
             {
                 Fold();
+                Debug.WriteLine("folds");
                 raised = false;
             }
-            else if(winningchance < 0.8)
+            else if(winningchance < 0.4)
             {
                 Debug.WriteLine("checks");
                 raised = false;
@@ -45,7 +45,6 @@ namespace Poker
             }
 
         }
-
         private void Fold()
         {
             Cards.Clear();

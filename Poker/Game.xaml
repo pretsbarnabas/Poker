@@ -19,10 +19,18 @@
             <RowDefinition Height="4*"></RowDefinition>
             <RowDefinition Height="3*"></RowDefinition>
         </Grid.RowDefinitions>
-        <WrapPanel x:Name="wp_player" Grid.Column="2" Grid.Row="2"/>
-        <WrapPanel x:Name="wp_bot0" Grid.Column="1" Grid.Row="2"/>
-        <WrapPanel x:Name="wp_bot1" Grid.Column="1" Grid.Row="0"/>
-        <WrapPanel x:Name="wp_bot2" Grid.Column="2" Grid.Row="0"/>
+        <WrapPanel x:Name="wp_player" Grid.Column="2" Grid.Row="2">
+            <Label x:Name="lb_playermoney" Content="0"/>
+        </WrapPanel>
+        <WrapPanel x:Name="wp_bot0" Grid.Column="1" Grid.Row="2">
+            <Label x:Name="lb_bot0Money" Content="0"/>
+        </WrapPanel>
+        <WrapPanel x:Name="wp_bot1" Grid.Column="1" Grid.Row="0">
+            <Label x:Name="lb_bot1Money" Content="0"/>
+        </WrapPanel>
+        <WrapPanel x:Name="wp_bot2" Grid.Column="2" Grid.Row="0">
+            <Label x:Name="lb_bot2Money" Content="0"/>
+        </WrapPanel>
         <Grid x:Name="grid_chips" Grid.Row="1" Grid.Column="1" Margin="128,126,132,10" Panel.ZIndex="2" Grid.ColumnSpan="2" RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
                 <TransformGroup>
@@ -33,7 +41,6 @@
                 </TransformGroup>
             </Grid.RenderTransform>
         </Grid>
-        <Label x:Name="lb_playerMoney" Content="Label" HorizontalAlignment="Left" Margin="589,356,0,0" VerticalAlignment="Top"/>
         <Button Grid.Column="0" Grid.Row="2" Width="50" Height="40" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15" Click="Back"></Button>
         <Ellipse HorizontalAlignment="Center" Height="180" Stroke="Black" VerticalAlignment="Center" Width="500" Fill="Sienna" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"/>
         <Grid x:Name="Buttons" Grid.ColumnSpan="1" Grid.RowSpan="3" Grid.Column="3">
@@ -47,9 +54,10 @@
             </Grid.RowDefinitions>
             <Label Name="ZsetonSliderValue" Content="{Binding ElementName=ZsetonSlider, Path=Value}" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
             <Slider x:Name="ZsetonSlider" Grid.Row="2" VerticalAlignment="Center" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="10000" IsSnapToTickEnabled="True" TickFrequency="1"></Slider>
-            <Button Grid.Row="3" Margin="5" Content="Raise"></Button>
-            <Button Grid.Row="4" Margin="5" Content="Check" Click="Check_Click"></Button>
-            <Button Grid.Row="5" Margin="5" Content="Fold"></Button>
+            <Button x:Name="btn_raise" Grid.Row="3" Margin="5" Content="Raise" Click="Raise_Click"></Button>
+            <Button x:Name="btn_check" Grid.Row="4" Margin="5" Content="Call" Click="Check_Click"></Button>
+            <Button x:Name="btn_fold" Grid.Row="5" Margin="5" Content="Fold"></Button>
         </Grid>
+        <Label x:Name="lb_moneyInPlay" Grid.Column="1" Content="0" HorizontalAlignment="Left" Margin="217,108,0,0" VerticalAlignment="Top" Height="27" Width="62" Grid.ColumnSpan="2"/>
     </Grid>
 </Page>
