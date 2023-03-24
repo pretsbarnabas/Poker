@@ -99,8 +99,15 @@ namespace Poker
         {
             try
             {
-            settings["Zsetonok"] = Convert.ToInt32(ZsetonSzam.Text);
-            SettingsPanel.Visibility= Visibility.Collapsed;
+                if (Convert.ToInt32(ZsetonSzam.Text) <= 10000)
+                {
+                    settings["Zsetonok"] = Convert.ToInt32(ZsetonSzam.Text);
+                    SettingsPanel.Visibility= Visibility.Collapsed;
+                }
+                else
+                {
+                    MessageBox.Show("Invalid input (<=10000)", ">:(", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             catch (Exception)
             {
