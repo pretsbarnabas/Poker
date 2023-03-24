@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Windows.Controls.Menu;
 namespace Poker
 {
     /// <summary>
@@ -43,18 +44,98 @@ namespace Poker
             }
 
 
-            AddChips(2000);
+            AddChips(Menu.settings["Zsetonok"]);
+            int playerMoney = Menu.settings["Zsetonok"];
         }
 
         private void AddChips(int money)
         {
-            int numOfChips = money / 500;
-            for (int i = 0; i < numOfChips; i++)
+            int privateMoney = money;
+            while (privateMoney != 0)
             {
-                grid_playerchips.Children.Add(LoadImage("chip.png", 50, 50));
-                Image image = (Image)grid_playerchips.Children[i];
-                image.Margin = new Thickness(i * 10, 0, 0, 0);
+                int numOfChips = money / 1000;
+                privateMoney = privateMoney - numOfChips*1000;
+                for (int i = 0; i < numOfChips; i++)
+                {
+                    grid_playerchips.Children.Add(LoadImage("dark_red.png","chips", 50, 50));
+                    Image image = (Image)grid_playerchips.Children[i];
+                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                }    
+                numOfChips = privateMoney / 500;
+                privateMoney = privateMoney - numOfChips * 500;
+
+                for (int i = 0; i < numOfChips; i++)
+                {
+                    grid_playerchips.Children.Add(LoadImage("red.png", "chips", 50, 50));
+                    Image image = (Image)grid_playerchips.Children[i];
+                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                }
+                numOfChips = privateMoney / 200;
+                privateMoney = privateMoney - numOfChips * 200;
+
+                for (int i = 0; i < numOfChips; i++)
+                {
+                    grid_playerchips.Children.Add(LoadImage("dark_blue.png", "chips", 50, 50));
+                    Image image = (Image)grid_playerchips.Children[i];
+                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                }
+                numOfChips = privateMoney / 100;
+                privateMoney = privateMoney - numOfChips * 100;
+
+                for (int i = 0; i < numOfChips; i++)
+                {
+                    grid_playerchips.Children.Add(LoadImage("blue.png", "chips", 50, 50));
+                    Image image = (Image)grid_playerchips.Children[i];
+                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                }
+                numOfChips = privateMoney / 50;
+                privateMoney = privateMoney - numOfChips * 50;
+
+                for (int i = 0; i < numOfChips; i++)
+                {
+                    grid_playerchips.Children.Add(LoadImage("purple.png", "chips", 50, 50));
+                    Image image = (Image)grid_playerchips.Children[i];
+                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                }
+                numOfChips = privateMoney / 25;
+                privateMoney = privateMoney - numOfChips * 25;
+
+                for (int i = 0; i < numOfChips; i++)
+                {
+                    grid_playerchips.Children.Add(LoadImage("green.png", "chips", 50, 50));
+                    Image image = (Image)grid_playerchips.Children[i];
+                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                }
+                numOfChips = privateMoney / 10;
+                privateMoney = privateMoney - numOfChips * 10;
+
+                for (int i = 0; i < numOfChips; i++)
+                {
+                    grid_playerchips.Children.Add(LoadImage("orange.png", "chips", 50, 50));
+                    Image image = (Image)grid_playerchips.Children[i];
+                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                }
+                numOfChips = privateMoney / 5;
+                privateMoney = privateMoney - numOfChips * 5;
+
+                for (int i = 0; i < numOfChips; i++)
+                {
+                    grid_playerchips.Children.Add(LoadImage("yellow.png", "chips", 50, 50));
+                    Image image = (Image)grid_playerchips.Children[i];
+                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                }
+                numOfChips = privateMoney;
+                privateMoney = privateMoney - numOfChips;
+
+                for (int i = 0; i < numOfChips; i++)
+                {
+                    grid_playerchips.Children.Add(LoadImage("pink.png", "chips", 50, 50));
+                    Image image = (Image)grid_playerchips.Children[i];
+                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                }
             }
+            
+            
         }
 
         private void GeneratePlayerCards(List<Card>cards)
@@ -290,6 +371,15 @@ namespace Poker
         {
             Image image = new Image();
             string packUri = $"pic/{path}";
+            image.Source = new ImageSourceConverter().ConvertFromString(packUri) as ImageSource;
+            image.Height = height;
+            image.Width = width;
+            return image;
+        }
+        public Image LoadImage(string filename, string directory, int height, int width)
+        {
+            Image image = new Image();
+            string packUri = $"{directory}/{filename}";
             image.Source = new ImageSourceConverter().ConvertFromString(packUri) as ImageSource;
             image.Height = height;
             image.Width = width;
