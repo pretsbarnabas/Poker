@@ -61,7 +61,8 @@ namespace Poker
         {
             startingMoney = Menu.settings["Zsetonok"];
             ZsetonSlider.Maximum = Menu.settings["Zsetonok"];
-            ZsetonSlider.Value = Menu.settings["Zsetonok"] / 2;
+            ZsetonSlider.Minimum = baseMoney;
+            ZsetonSlider.Value = baseMoney;
         }
 
         private void AddChips(int money)
@@ -439,6 +440,14 @@ namespace Poker
             Thread thread = new Thread(BotsMove);
             thread.Start();
         }
+        private void Fold_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleButtons(false);
+            wp_player.Children.RemoveRange(1, wp_player.Children.Count);
+            raised = false;
+            Thread thread = new Thread(BotsMove);
+            thread.Start();
+        }
 
         private void WagerMoney(Bot Player)
         {
@@ -524,6 +533,13 @@ namespace Poker
             }
             this.Dispatcher.Invoke(() =>
             {
+                ZsetonSlider.Minimum = baseMoney;
+                if(wp_player.Children.Count == 1)
+                {
+                    Thread thread = new Thread(BotsMove);
+                    thread.Start();
+                    return;
+                }
                 ToggleButtons(true);
             });
         }
@@ -538,55 +554,55 @@ namespace Poker
         
         private void gridSizeChange(object sender, SizeChangedEventArgs e)
         {
-            double gridWidth = Table.ActualWidth;
-            double gridHeight = Table.ActualHeight;
-            double cardGridHeight = grCards.ActualHeight;
-            double ratio = 0.688;
-            Ellipse ellipse = Table.Children[0] as Ellipse;
-            ellipse.Width = gridWidth;
-            ellipse.Height = gridHeight;
-            double height;
-            foreach (Image img in grCards.Children)
-            {
+            //double gridWidth = Table.ActualWidth;
+            //double gridHeight = Table.ActualHeight;
+            //double cardGridHeight = grCards.ActualHeight;
+            //double ratio = 0.688;
+            //Ellipse ellipse = Table.Children[0] as Ellipse;
+            //ellipse.Width = gridWidth;
+            //ellipse.Height = gridHeight;
+            //double height;
+            //foreach (Image img in grCards.Children)
+            //{
                 
-                img.Height = grCards.ActualHeight;
-                img.Width = grCards.ActualHeight * ratio;
-                height = grCards.ActualHeight;
-            }
-            foreach (Image img in grid_playerchips.Children)
-            {
-                img.Height = grid_playerchips.ActualHeight;
-                img.Width = grid_playerchips.ActualHeight * ratio;
-            }
+            //    img.Height = grCards.ActualHeight;
+            //    img.Width = grCards.ActualHeight * ratio;
+            //    height = grCards.ActualHeight;
+            //}
+            //foreach (Image img in grid_playerchips.Children)
+            //{
+            //    img.Height = grid_playerchips.ActualHeight;
+            //    img.Width = grid_playerchips.ActualHeight * ratio;
+            //}
 
-            foreach (Image img in wp_player.Children)
-            {
-                img.Height = grCards.ActualHeight;
-                img.Width = grCards.ActualHeight * ratio;
-            }
-            foreach (Image img in wp_bot0.Children)
-            {
-                img.Height = grCards.ActualHeight;
-                img.Width = grCards.ActualHeight * ratio;
-            }
-            foreach (Image img in wp_bot1.Children)
-            {
-                img.Height = grCards.ActualHeight;
-                img.Width = grCards.ActualHeight * ratio;
-            }
-            foreach (Image img in wp_bot2.Children)
-            {
-                img.Height = grCards.ActualHeight;
-                img.Width = grCards.ActualHeight * ratio;
-            }
-            wp_player.HorizontalAlignment = HorizontalAlignment.Center;
-            wp_player.VerticalAlignment = VerticalAlignment.Center;
-            wp_bot0.HorizontalAlignment = HorizontalAlignment.Center;
-            wp_bot0.VerticalAlignment = VerticalAlignment.Center;
-            wp_bot1.HorizontalAlignment = HorizontalAlignment.Center;
-            wp_bot1.VerticalAlignment = VerticalAlignment.Center;
-            wp_bot2.HorizontalAlignment = HorizontalAlignment.Center;
-            wp_bot2.VerticalAlignment = VerticalAlignment.Center;
+            //foreach (Image img in wp_player.Children)
+            //{
+            //    img.Height = grCards.ActualHeight;
+            //    img.Width = grCards.ActualHeight * ratio;
+            //}
+            //foreach (Image img in wp_bot0.Children)
+            //{
+            //    img.Height = grCards.ActualHeight;
+            //    img.Width = grCards.ActualHeight * ratio;
+            //}
+            //foreach (Image img in wp_bot1.Children)
+            //{
+            //    img.Height = grCards.ActualHeight;
+            //    img.Width = grCards.ActualHeight * ratio;
+            //}
+            //foreach (Image img in wp_bot2.Children)
+            //{
+            //    img.Height = grCards.ActualHeight;
+            //    img.Width = grCards.ActualHeight * ratio;
+            //}
+            //wp_player.HorizontalAlignment = HorizontalAlignment.Center;
+            //wp_player.VerticalAlignment = VerticalAlignment.Center;
+            //wp_bot0.HorizontalAlignment = HorizontalAlignment.Center;
+            //wp_bot0.VerticalAlignment = VerticalAlignment.Center;
+            //wp_bot1.HorizontalAlignment = HorizontalAlignment.Center;
+            //wp_bot1.VerticalAlignment = VerticalAlignment.Center;
+            //wp_bot2.HorizontalAlignment = HorizontalAlignment.Center;
+            //wp_bot2.VerticalAlignment = VerticalAlignment.Center;
         }
     }
 }

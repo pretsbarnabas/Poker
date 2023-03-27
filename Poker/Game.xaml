@@ -42,11 +42,7 @@
             </Grid.RenderTransform>
         </Grid>
         <Button Grid.Column="0" Grid.Row="2" Width="50" Height="40" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15" Click="Back"></Button>
-        
-        
-        
-        
-        
+
         <Grid x:Name="Table" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" SizeChanged="gridSizeChange">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
@@ -102,7 +98,7 @@
             <Label Name="ZsetonSliderValue" Content="{Binding ElementName=ZsetonSlider, Path=Value}" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
             <Slider x:Name="ZsetonSlider" Grid.Row="2" VerticalAlignment="Center" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="10000" IsSnapToTickEnabled="True" TickFrequency="1"></Slider>
 
-            <Button x:Name="btn_raise" Grid.Row="3" Margin="5" Content="Raise" Background="DodgerBlue">
+            <Button x:Name="btn_raise" Grid.Row="3" Margin="5" Content="Raise" Background="DodgerBlue" Click="Raise_Click">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"></Setter>
@@ -111,7 +107,7 @@
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button x:Name="btn_check" Grid.Row="4" Margin="5" Content="Check" Background="DodgerBlue">
+            <Button x:Name="btn_check" Grid.Row="4" Margin="5" Content="Call" Background="DodgerBlue" Click="Check_Click">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"></Setter>
@@ -120,7 +116,7 @@
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button x:Name="btn_fold" Grid.Row="5" Margin="5" Content="Fold" Background="Red" BorderThickness="3">
+            <Button x:Name="btn_fold" Grid.Row="5" Margin="5" Content="Fold" Background="Red" BorderThickness="3" Click="Fold_Click">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"></Setter>

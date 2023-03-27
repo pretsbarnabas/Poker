@@ -34,7 +34,7 @@ namespace Poker
                 Debug.WriteLine("folds");
                 raised = false;
             }
-            else if(winningchance < 0.4)
+            else if(winningchance < 0.7)
             {
                 Debug.WriteLine("checks");
                 raised = false;
