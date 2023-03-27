@@ -31,6 +31,7 @@ namespace Poker
         bool raised;
         int moneyInPlay = 0;
         int baseMoney = 20;
+        int turnPhase = 1;
         Bot player;
         bool IsCall = true;
         bool CanAdvance = false;
@@ -43,16 +44,6 @@ namespace Poker
             List<Card> cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
             bots = GenerateBots(cards,numberofbots);
             GeneratePlayerCards(cards);
-            for (int i = 0; i < 4; i++)
-            {
-                Image img = (LoadImage("10.gif", 50, 50));
-                ColumnDefinition c = new();
-                grCards.ColumnDefinitions.Add(c);
-                Grid.SetColumn(img, i);
-                grCards.Children.Add(img);
-            }
-
-
             AddChips(Menu.settings["Zsetonok"]);
             int playerMoney = Menu.settings["Zsetonok"];
         }
@@ -530,6 +521,7 @@ namespace Poker
             if (CanAdvance)
             {
                 Debug.WriteLine("Advanced");
+                Dispatcher.Invoke(DealerTurn);
             }
             this.Dispatcher.Invoke(() =>
             {
@@ -550,6 +542,36 @@ namespace Poker
                 await Task.Delay(milliseconds);
             });
             t.Wait();
+        }
+
+        public void DealerTurn()
+        {
+            int numOfCards = 0;
+            int colStart = 0;
+            switch (turnPhase)
+            {
+                case 1:
+                    numOfCards = 3;
+                    colStart = 0;
+                    break;
+                case 2:
+                    numOfCards = 1;
+                    colStart = 3;
+                    break;
+                case 3:
+                    numOfCards = 1;
+                    colStart = 5;
+                    break;
+            }
+            turnPhase++;
+            for (int i = 0; i < numOfCards; i++)
+            {
+                Image img = (LoadImage("10.gif", 50, 50));
+                ColumnDefinition c = new();
+                grCards.ColumnDefinitions.Add(c);
+                Grid.SetColumn(img, i+colStart);
+                grCards.Children.Add(img);
+            }
         }
         
         private void gridSizeChange(object sender, SizeChangedEventArgs e)
