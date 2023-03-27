@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,15 +26,22 @@ namespace Poker
     {
         Random random = new Random();
         int currentZseton;
+        int startingMoney;
+        List<Bot> bots;
+        bool raised;
+        int moneyInPlay = 0;
+        int baseMoney = 20;
+        Bot player;
+        bool IsCall = true;
+        bool CanAdvance = false;
 
         public Game()
         {
             InitializeComponent();
-            ZsetonSlider.Maximum = Menu.settings["Zsetonok"];
-            ZsetonSlider.Value = Menu.settings["Zsetonok"] / 2;
+            InitalizeStartingMoney();
             int numberofbots = 3;
             List<Card> cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
-            List<Bot> bots = GenerateBots(cards,numberofbots);
+            bots = GenerateBots(cards,numberofbots);
             GeneratePlayerCards(cards);
             for (int i = 0; i < 4; i++)
             {
@@ -46,6 +55,13 @@ namespace Poker
 
             AddChips(Menu.settings["Zsetonok"]);
             int playerMoney = Menu.settings["Zsetonok"];
+        }
+
+        private void InitalizeStartingMoney()
+        {
+            startingMoney = Menu.settings["Zsetonok"];
+            ZsetonSlider.Maximum = Menu.settings["Zsetonok"];
+            ZsetonSlider.Value = Menu.settings["Zsetonok"] / 2;
         }
 
         private void AddChips(int money)
@@ -140,10 +156,10 @@ namespace Poker
 
         private void GeneratePlayerCards(List<Card>cards)
         {
-            Bot player = new Bot(PopRandomCard(cards), PopRandomCard(cards), currentZseton);
+            player = new Bot(PopRandomCard(cards), PopRandomCard(cards), startingMoney, 0);
             wp_player.Children.Add(LoadImage(player.Cards[0].ImagePath,100,100));
             wp_player.Children.Add(LoadImage(player.Cards[1].ImagePath,100,100));
-            lb_playerMoney.Content = $"{player.Money}";
+            lb_playermoney.Content = $"{player.Money}";
         }
 
         private void Back(object sender, RoutedEventArgs e)
@@ -390,7 +406,7 @@ namespace Poker
             List<Bot> bots = new List<Bot>();
             for (int i = 0; i < NumberOfBots; i++)
             {
-                Bot bot = new Bot(PopRandomCard(cards),PopRandomCard(cards), currentZseton);
+                Bot bot = new Bot(PopRandomCard(cards),PopRandomCard(cards), startingMoney, i+1);
                 bots.Add(bot);
                 FillWrapPanel((WrapPanel)Board.Children[i + 1], bots[i]);
             }
@@ -400,8 +416,126 @@ namespace Poker
         {
             wp.Children.Add(LoadImage("Hátlap.gif",100,100));
             wp.Children.Add(LoadImage("Hátlap.gif",100,100));
+            Label label = (Label)wp.Children[0];
+            label.Content = $"{bot.Money}";
+        }
+        private void Check_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleButtons(false);
+            if (IsCall)
+            {
+                WagerMoney(player);  
+            }
+            raised = false;
+            Thread thread = new Thread(BotsMove); // megse lesz ez a 13. okom
+            thread.Start();
+        }
+        private void Raise_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleButtons(false);
+            baseMoney = currentZseton;
+            WagerMoney(player);
+            IsCall = true;
+            Thread thread = new Thread(BotsMove);
+            thread.Start();
         }
 
+        private void WagerMoney(Bot Player)
+        {
+            moneyInPlay += baseMoney;
+            Player.Money -= baseMoney;
+            if(Player == player)
+            {
+                ZsetonSlider.Maximum = player.Money;
+            }
+            WrapPanel wp = (WrapPanel)Board.Children[Player.Num];
+            Label label = (Label)wp.Children[0];
+            lb_moneyInPlay.Content = $"{moneyInPlay}";
+            label.Content = $"{Player.Money}";
+        }
+
+        private void ToggleButtons(bool IsEnabled)
+        {
+            btn_raise.IsEnabled = IsEnabled;
+            btn_check.IsEnabled = IsEnabled;
+            btn_fold.IsEnabled = IsEnabled;
+        }
+
+        private void BotsMove()
+        {
+            bool DidTheBotsRaise = false;
+            for (int i = 0; i < bots.Count; i++)
+            {
+                Delay(1000);
+                bots[i].Move(out raised, HandCheck(new List<Card>(), bots[i].Cards));
+                if (raised)
+                {
+                    IsCall = true;
+                    DidTheBotsRaise = true;
+                }
+                if (bots[i].Cards.Count == 0)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        WrapPanel wp = (WrapPanel)Board.Children[i + 1];
+                        wp.Children.Clear();
+                    });
+                }
+                else if (raised == true)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        if(baseMoney == 20)
+                        {
+                            baseMoney = random.Next(baseMoney, bots[i].Money / 4);
+                        }
+                        WagerMoney(bots[i]);
+                        btn_check.Content = "Call";
+                    });
+
+                }
+                else
+                {
+                    if (IsCall)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        { 
+                            WagerMoney(bots[i]);
+                        });
+                    }
+                }
+            }
+            if (!DidTheBotsRaise)
+            {
+                if (!IsCall)
+                {
+                    CanAdvance = true;
+                }
+                Dispatcher.Invoke(() =>
+                {
+                    btn_check.Content = "Check";
+                });
+                IsCall = false;
+                baseMoney = 20;
+            }
+            if (CanAdvance)
+            {
+                Debug.WriteLine("Advanced");
+            }
+            this.Dispatcher.Invoke(() =>
+            {
+                ToggleButtons(true);
+            });
+        }
+        public void Delay(int milliseconds)
+        {
+            var t = Task.Run(async delegate
+            {
+                await Task.Delay(milliseconds);
+            });
+            t.Wait();
+        }
+        
         private void gridSizeChange(object sender, SizeChangedEventArgs e)
         {
             double gridWidth = Table.ActualWidth;
