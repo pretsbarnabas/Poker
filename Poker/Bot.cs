@@ -12,6 +12,7 @@ namespace Poker
         public List<Card> Cards { get; set; }
         public int Money { get; set; }
         public int Num { get; set; }
+        public bool isDealer { get; set; }
         public Bot(Card card1, Card card2, int defaultMoney, int num)
         {
             Cards = new List<Card>();

@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Windows.Controls.Menu;
 namespace Poker
 {
     /// <summary>
@@ -42,7 +43,18 @@ namespace Poker
             List<Card> cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
             bots = GenerateBots(cards,numberofbots);
             GeneratePlayerCards(cards);
-            AddChips(2000);
+            for (int i = 0; i < 4; i++)
+            {
+                Image img = (LoadImage("10.gif", 50, 50));
+                ColumnDefinition c = new();
+                grCards.ColumnDefinitions.Add(c);
+                Grid.SetColumn(img, i);
+                grCards.Children.Add(img);
+            }
+
+
+            AddChips(Menu.settings["Zsetonok"]);
+            int playerMoney = Menu.settings["Zsetonok"];
         }
 
         private void InitalizeStartingMoney()
@@ -54,13 +66,92 @@ namespace Poker
 
         private void AddChips(int money)
         {
-            int numOfChips = money / 500;
-            for (int i = 0; i < numOfChips; i++)
+            int privateMoney = money;
+            while (privateMoney != 0)
             {
-                grid_chips.Children.Add(LoadImage("chip.png", 50, 50));
-                Image image = (Image)grid_chips.Children[i];
-                image.Margin = new Thickness(i * 10, 0, 0, 0);
+                int numOfChips = money / 1000;
+                privateMoney = privateMoney - numOfChips*1000;
+                for (int i = 0; i < numOfChips; i++)
+                {
+                    grid_playerchips.Children.Add(LoadImage("dark_red.png","chips", 50, 50));
+                    Image image = (Image)grid_playerchips.Children[i];
+                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                }    
+                numOfChips = privateMoney / 500;
+                privateMoney = privateMoney - numOfChips * 500;
+
+                for (int i = 0; i < numOfChips; i++)
+                {
+                    grid_playerchips.Children.Add(LoadImage("red.png", "chips", 50, 50));
+                    Image image = (Image)grid_playerchips.Children[i];
+                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                }
+                numOfChips = privateMoney / 200;
+                privateMoney = privateMoney - numOfChips * 200;
+
+                for (int i = 0; i < numOfChips; i++)
+                {
+                    grid_playerchips.Children.Add(LoadImage("dark_blue.png", "chips", 50, 50));
+                    Image image = (Image)grid_playerchips.Children[i];
+                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                }
+                numOfChips = privateMoney / 100;
+                privateMoney = privateMoney - numOfChips * 100;
+
+                for (int i = 0; i < numOfChips; i++)
+                {
+                    grid_playerchips.Children.Add(LoadImage("blue.png", "chips", 50, 50));
+                    Image image = (Image)grid_playerchips.Children[i];
+                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                }
+                numOfChips = privateMoney / 50;
+                privateMoney = privateMoney - numOfChips * 50;
+
+                for (int i = 0; i < numOfChips; i++)
+                {
+                    grid_playerchips.Children.Add(LoadImage("purple.png", "chips", 50, 50));
+                    Image image = (Image)grid_playerchips.Children[i];
+                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                }
+                numOfChips = privateMoney / 25;
+                privateMoney = privateMoney - numOfChips * 25;
+
+                for (int i = 0; i < numOfChips; i++)
+                {
+                    grid_playerchips.Children.Add(LoadImage("green.png", "chips", 50, 50));
+                    Image image = (Image)grid_playerchips.Children[i];
+                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                }
+                numOfChips = privateMoney / 10;
+                privateMoney = privateMoney - numOfChips * 10;
+
+                for (int i = 0; i < numOfChips; i++)
+                {
+                    grid_playerchips.Children.Add(LoadImage("orange.png", "chips", 50, 50));
+                    Image image = (Image)grid_playerchips.Children[i];
+                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                }
+                numOfChips = privateMoney / 5;
+                privateMoney = privateMoney - numOfChips * 5;
+
+                for (int i = 0; i < numOfChips; i++)
+                {
+                    grid_playerchips.Children.Add(LoadImage("yellow.png", "chips", 50, 50));
+                    Image image = (Image)grid_playerchips.Children[i];
+                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                }
+                numOfChips = privateMoney;
+                privateMoney = privateMoney - numOfChips;
+
+                for (int i = 0; i < numOfChips; i++)
+                {
+                    grid_playerchips.Children.Add(LoadImage("pink.png", "chips", 50, 50));
+                    Image image = (Image)grid_playerchips.Children[i];
+                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                }
             }
+            
+            
         }
 
         private void GeneratePlayerCards(List<Card>cards)
@@ -75,8 +166,6 @@ namespace Poker
         {
             this.NavigationService.Navigate(new Uri("Menu.xaml", UriKind.Relative));
         }
-        
-        int highestHand = 0;
 
         private int CardClassHighestValue(List<Card> cardList)
         {
@@ -303,6 +392,15 @@ namespace Poker
             image.Width = width;
             return image;
         }
+        public Image LoadImage(string filename, string directory, int height, int width)
+        {
+            Image image = new Image();
+            string packUri = $"{directory}/{filename}";
+            image.Source = new ImageSourceConverter().ConvertFromString(packUri) as ImageSource;
+            image.Height = height;
+            image.Width = width;
+            return image;
+        }
         public List<Bot> GenerateBots(List<Card> cards, int NumberOfBots)
         {
             List<Bot> bots = new List<Bot>();
@@ -437,6 +535,58 @@ namespace Poker
             });
             t.Wait();
         }
+        
+        private void gridSizeChange(object sender, SizeChangedEventArgs e)
+        {
+            double gridWidth = Table.ActualWidth;
+            double gridHeight = Table.ActualHeight;
+            double cardGridHeight = grCards.ActualHeight;
+            double ratio = 0.688;
+            Ellipse ellipse = Table.Children[0] as Ellipse;
+            ellipse.Width = gridWidth;
+            ellipse.Height = gridHeight;
+            double height;
+            foreach (Image img in grCards.Children)
+            {
+                
+                img.Height = grCards.ActualHeight;
+                img.Width = grCards.ActualHeight * ratio;
+                height = grCards.ActualHeight;
+            }
+            foreach (Image img in grid_playerchips.Children)
+            {
+                img.Height = grid_playerchips.ActualHeight;
+                img.Width = grid_playerchips.ActualHeight * ratio;
+            }
 
+            foreach (Image img in wp_player.Children)
+            {
+                img.Height = grCards.ActualHeight;
+                img.Width = grCards.ActualHeight * ratio;
+            }
+            foreach (Image img in wp_bot0.Children)
+            {
+                img.Height = grCards.ActualHeight;
+                img.Width = grCards.ActualHeight * ratio;
+            }
+            foreach (Image img in wp_bot1.Children)
+            {
+                img.Height = grCards.ActualHeight;
+                img.Width = grCards.ActualHeight * ratio;
+            }
+            foreach (Image img in wp_bot2.Children)
+            {
+                img.Height = grCards.ActualHeight;
+                img.Width = grCards.ActualHeight * ratio;
+            }
+            wp_player.HorizontalAlignment = HorizontalAlignment.Center;
+            wp_player.VerticalAlignment = VerticalAlignment.Center;
+            wp_bot0.HorizontalAlignment = HorizontalAlignment.Center;
+            wp_bot0.VerticalAlignment = VerticalAlignment.Center;
+            wp_bot1.HorizontalAlignment = HorizontalAlignment.Center;
+            wp_bot1.VerticalAlignment = VerticalAlignment.Center;
+            wp_bot2.HorizontalAlignment = HorizontalAlignment.Center;
+            wp_bot2.VerticalAlignment = VerticalAlignment.Center;
+        }
     }
 }
