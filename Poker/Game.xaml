@@ -19,7 +19,7 @@
             <RowDefinition Height="4*"></RowDefinition>
             <RowDefinition Height="3*"></RowDefinition>
         </Grid.RowDefinitions>
-        <WrapPanel x:Name="wp_player" Grid.Column="2" Grid.Row="2">
+        <WrapPanel x:Name="wp_player" Grid.Column="2" Grid.Row="2" >
             <Label x:Name="lb_playermoney" Content="0"/>
         </WrapPanel>
         <WrapPanel x:Name="wp_bot0" Grid.Column="1" Grid.Row="2">
@@ -42,11 +42,11 @@
             </Grid.RenderTransform>
         </Grid>
         <Button Grid.Column="0" Grid.Row="2" Width="50" Height="40" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15" Click="Back"></Button>
-        
-        
-        
-        
-        
+
+
+
+
+
         <Grid x:Name="Table" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" SizeChanged="gridSizeChange">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
@@ -67,7 +67,7 @@
                 </WrapPanel.Resources>
             </WrapPanel>-->
             <Grid x:Name="grCards" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-                
+
             </Grid>
             <Grid x:Name="grid_playerchips" Grid.Row="2" Grid.Column="1" Panel.ZIndex="2" RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
@@ -79,17 +79,17 @@
                     </TransformGroup>
                 </Grid.RenderTransform>
             </Grid>
-            
+
             <Grid x:Name="grid_bot0" Grid.Column="0" Grid.Row="2"></Grid>
             <Grid x:Name="grid_bot1" Grid.Column="0" Grid.Row="0"></Grid>
             <Grid x:Name="grid_bot2" Grid.Column="1" Grid.Row="0"></Grid>
         </Grid>
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
         <Grid x:Name="Buttons" Grid.ColumnSpan="1" Grid.RowSpan="3" Grid.Column="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="7*"></RowDefinition>
@@ -130,6 +130,6 @@
                 </Button.Resources>
             </Button>
         </Grid>
-        <Label x:Name="lb_moneyInPlay" Grid.Column="1" Content="0" HorizontalAlignment="Left" Margin="217,108,0,0" VerticalAlignment="Top" Height="27" Width="62" Grid.ColumnSpan="2"/>
+        <Label x:Name="lb_moneyInPlay" HorizontalContentAlignment="Center"  Grid.Column="2"  Content="0" Margin="0,108,221,0" Height="27" Width="62"  HorizontalAlignment="Left"/>
     </Grid>
 </Page>
