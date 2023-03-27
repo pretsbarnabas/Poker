@@ -28,6 +28,7 @@ namespace Poker
         int currentZseton;
         int startingMoney;
         List<Bot> bots;
+        List<Card> cards;
         bool raised;
         int moneyInPlay = 0;
         int baseMoney = 20;
@@ -41,7 +42,7 @@ namespace Poker
             InitializeComponent();
             InitalizeStartingMoney();
             int numberofbots = 3;
-            List<Card> cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
+            cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
             bots = GenerateBots(cards,numberofbots);
             GeneratePlayerCards(cards);
             AddChips(Menu.settings["Zsetonok"]);
@@ -521,7 +522,16 @@ namespace Poker
             if (CanAdvance)
             {
                 Debug.WriteLine("Advanced");
-                Dispatcher.Invoke(DealerTurn);
+                Dispatcher.Invoke(() =>
+                {
+                    if (grCards.Children.Count == 5)
+                    {
+                        Debug.WriteLine("End");
+                        ResetRound();
+                        return;
+                    }
+                    DealerTurn();
+                });
             }
             this.Dispatcher.Invoke(() =>
             {
@@ -572,6 +582,27 @@ namespace Poker
                 Grid.SetColumn(img, i+colStart);
                 grCards.Children.Add(img);
             }
+        }
+
+        public void ResetRound()
+        {
+            ResetCards();
+        }
+
+        public void ResetCards()
+        {
+            foreach (Bot bot in bots)
+            {
+                bot.Cards.Clear();
+            }
+            for (int i = 0; i < bots.Count; i++)
+            {
+                WrapPanel wp = (WrapPanel)Board.Children[i + 1];
+                wp.Children.RemoveRange(1, bots[i].Cards.Count);
+            }
+            wp_player.Children.RemoveRange(1, player.Cards.Count);
+            player.Cards.Clear();
+            cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
         }
         
         private void gridSizeChange(object sender, SizeChangedEventArgs e)
