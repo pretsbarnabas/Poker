@@ -62,9 +62,8 @@
                     </Style>
                 </WrapPanel.Resources>
             </WrapPanel>-->
-            <Grid x:Name="gr_dealer" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-                
-            </Grid>
+            <WrapPanel x:Name="wp_dealer" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="125,0,125,0"/>
+            
             <Grid x:Name="grid_playerchips" Grid.Row="2" Grid.Column="1" Panel.ZIndex="2" RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
                     <TransformGroup>
