@@ -383,7 +383,21 @@ namespace Poker
 
         }
 
-
+        private void GameEnd(List<Bot> allPlayer)
+        {
+            List<Bot> winners = new();
+            Bot winner;
+            (int, int) highestHand = (0, 0);
+            foreach (Bot player in allPlayer)
+            {
+                (int, int) actualHandStrength = HandCheck(dealer.Cards, player.Cards);
+                if (actualHandStrength.Item1 >= highestHand.Item1)
+                {
+                    highestHand = actualHandStrength;
+                    winner = player;
+                }
+            }
+        }
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             currentZseton = Convert.ToInt32(ZsetonSlider.Value);
@@ -438,12 +452,15 @@ namespace Poker
         }
         private void Raise_Click(object sender, RoutedEventArgs e)
         {
-            ToggleButtons(false);
-            baseMoney = currentZseton;
-            WagerMoney(player);
-            IsCall = true;
-            Thread thread = new Thread(BotsMove);
-            thread.Start();
+            if (player.Money>0)
+            {
+                ToggleButtons(false);
+                baseMoney = currentZseton;
+                WagerMoney(player);
+                IsCall = true;
+                Thread thread = new Thread(BotsMove);
+                thread.Start();
+            }
         }
         private void Fold_Click(object sender, RoutedEventArgs e)
         {
