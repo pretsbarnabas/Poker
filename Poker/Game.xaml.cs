@@ -552,6 +552,7 @@ namespace Poker
                 {
                     Label lbl = wp_player.Children[i] as Label;
                     lbl.FontSize = (grCards.ActualWidth * ratio) / 20;
+
                 }
             }
             for (int i = 0; i < 3; i++)
@@ -564,7 +565,7 @@ namespace Poker
                     img.Height = grCards.ActualHeight;
                     img.Width = img.ActualWidth * (ratio + 1);
                 }
-                else if (type == "Label")
+                else if (type == "Label")                                 
                 {
                     Label lbl = wp_bot0.Children[i] as Label;
                     lbl.FontSize = (grCards.ActualWidth * ratio) / 20;
@@ -608,19 +609,24 @@ namespace Poker
                 img.Height = grCards.ActualHeight;
                 img.Width = grCards.ActualWidth * ratio;
             }
-            lb_moneyInPlay.FontSize = 16;
-            lb_moneyInPlay.VerticalAlignment = VerticalAlignment.Center;
-            wp_player.HorizontalAlignment = HorizontalAlignment.Center;
+            foreach (Image img in grid_playerchips.Children)
+            {
+                img.Height = grCards.ActualHeight*ratio;
+                img.Width = img.ActualWidth * (ratio + 1);
+            }
+            lb_moneyInPlay.FontSize = (grCards.ActualWidth * ratio) / 20;
+            lb_moneyInPlay.VerticalAlignment = VerticalAlignment.Bottom;
+            lb_moneyInPlay.HorizontalAlignment = HorizontalAlignment.Center;
+            wp_player.HorizontalAlignment = HorizontalAlignment.Stretch;
             wp_player.Width = grCards.ActualWidth * ratio;
             wp_player.VerticalAlignment = VerticalAlignment.Center;
-            wp_bot0.HorizontalAlignment = HorizontalAlignment.Center;
+            wp_bot0.HorizontalAlignment = HorizontalAlignment.Stretch;
             wp_bot0.VerticalAlignment = VerticalAlignment.Center;
             wp_bot0.Width = grCards.ActualWidth * ratio;
-            wp_bot1.HorizontalAlignment = HorizontalAlignment.Center;
+            wp_bot1.HorizontalAlignment = HorizontalAlignment.Stretch;
             wp_bot1.VerticalAlignment = VerticalAlignment.Center;
             wp_bot1.Width = grCards.ActualWidth * ratio;
-
-            wp_bot2.HorizontalAlignment = HorizontalAlignment.Center;
+            wp_bot2.HorizontalAlignment = HorizontalAlignment.Stretch;
             wp_bot2.VerticalAlignment = VerticalAlignment.Center;
             wp_bot2.Width = grCards.ActualWidth * ratio;
 

@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:Poker"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Game" Background="White">
+      Title="Game" Background="White" SizeChanged="gridSizeChange">
     <Grid x:Name="Board">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"></ColumnDefinition>
@@ -130,6 +130,6 @@
                 </Button.Resources>
             </Button>
         </Grid>
-        <Label x:Name="lb_moneyInPlay" HorizontalContentAlignment="Center"  Grid.Column="2"  Content="0" Margin="0,108,221,0" Height="27" Width="62"  HorizontalAlignment="Left"/>
+        <Label x:Name="lb_moneyInPlay"  Grid.Column="1" Grid.ColumnSpan="2"  Content="0" Margin="219,88,219,10" Height="auto" Width="auto" HorizontalContentAlignment="Center" Panel.ZIndex="30"/>
     </Grid>
 </Page>
