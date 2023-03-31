@@ -1,22 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static System.Windows.Controls.Menu;
 namespace Poker
 {
     /// <summary>
@@ -66,13 +58,13 @@ namespace Poker
             while (privateMoney != 0)
             {
                 int numOfChips = money / 1000;
-                privateMoney = privateMoney - numOfChips*1000;
+                privateMoney = privateMoney - numOfChips * 1000;
                 for (int i = 0; i < numOfChips; i++)
                 {
-                    grid_playerchips.Children.Add(LoadImage("dark_red.png","chips", 50, 50));
+                    grid_playerchips.Children.Add(LoadImage("dark_red.png", "chips", 50, 50));
                     Image image = (Image)grid_playerchips.Children[i];
                     image.Margin = new Thickness(i * 10, 0, 0, 0);
-                }    
+                }
                 numOfChips = privateMoney / 500;
                 privateMoney = privateMoney - numOfChips * 500;
 
@@ -146,9 +138,10 @@ namespace Poker
                     image.Margin = new Thickness(i * 10, 0, 0, 0);
                 }
             }
-            
-            
+
+
         }
+
         private void GiveNewCards()
         {
             for (int i = 0; i < 2; i++)
@@ -166,11 +159,12 @@ namespace Poker
                 FillWrapPanel((WrapPanel)Board.Children[i + 1], bots[i]);
             }
         }
-        private void GeneratePlayer(List<Card>cards)
+        
+        private void GeneratePlayerCards(List<Card> cards)
         {
             player = new Bot(PopRandomCard(cards), PopRandomCard(cards), startingMoney, 0);
-            wp_player.Children.Add(LoadImage(player.Cards[0].ImagePath,100,100));
-            wp_player.Children.Add(LoadImage(player.Cards[1].ImagePath,100,100));
+            wp_player.Children.Add(LoadImage(player.Cards[0].ImagePath, 100, 100));
+            wp_player.Children.Add(LoadImage(player.Cards[1].ImagePath, 100, 100));
             lb_playermoney.Content = $"{player.Money}";
         }
 
@@ -379,7 +373,7 @@ namespace Poker
             //High card - jó
             return (1, CardClassHighestValue(allCard));
         }
-        
+
         public Card PopRandomCard(List<Card> list)
         {
             int randomnum = random.Next(0, list.Count);
@@ -394,7 +388,7 @@ namespace Poker
         {
             currentZseton = Convert.ToInt32(ZsetonSlider.Value);
         }
-        
+
         public Image LoadImage(string path, int height, int width)
         {
             Image image = new Image();
@@ -418,7 +412,7 @@ namespace Poker
             List<Bot> bots = new List<Bot>();
             for (int i = 0; i < NumberOfBots; i++)
             {
-                Bot bot = new Bot(PopRandomCard(cards),PopRandomCard(cards), startingMoney, i+1);
+                Bot bot = new Bot(PopRandomCard(cards), PopRandomCard(cards), startingMoney, i + 1);
                 bots.Add(bot);
                 FillWrapPanel((WrapPanel)Board.Children[i + 1], bots[i]);
             }
@@ -426,8 +420,8 @@ namespace Poker
         }
         public void FillWrapPanel(WrapPanel wp, Bot bot)
         {
-            wp.Children.Add(LoadImage("Hátlap.gif",100,100));
-            wp.Children.Add(LoadImage("Hátlap.gif",100,100));
+            wp.Children.Add(LoadImage("Hátlap.gif", 100, 100));
+            wp.Children.Add(LoadImage("Hátlap.gif", 100, 100));
             Label label = (Label)wp.Children[0];
             label.Content = $"{bot.Money}";
         }
@@ -436,7 +430,7 @@ namespace Poker
             ToggleButtons(false);
             if (IsCall)
             {
-                WagerMoney(player);  
+                WagerMoney(player);
             }
             raised = false;
             Thread thread = new Thread(BotsMove); // megse lesz ez a 13. okom
@@ -464,7 +458,7 @@ namespace Poker
         {
             moneyInPlay += baseMoney;
             Player.Money -= baseMoney;
-            if(Player == player)
+            if (Player == player)
             {
                 ZsetonSlider.Maximum = player.Money;
             }
@@ -505,7 +499,7 @@ namespace Poker
                 {
                     this.Dispatcher.Invoke(() =>
                     {
-                        if(baseMoney == 20)
+                        if (baseMoney == 20)
                         {
                             baseMoney = random.Next(baseMoney, bots[i].Money / 4);
                         }
@@ -519,7 +513,7 @@ namespace Poker
                     if (IsCall)
                     {
                         this.Dispatcher.Invoke(() =>
-                        { 
+                        {
                             WagerMoney(bots[i]);
                         });
                     }
@@ -645,55 +639,121 @@ namespace Poker
         
         private void gridSizeChange(object sender, SizeChangedEventArgs e)
         {
-            //double gridWidth = Table.ActualWidth;
-            //double gridHeight = Table.ActualHeight;
-            //double cardGridHeight = gr_dealer.ActualHeight;
-            //double ratio = 0.688;
-            //Ellipse ellipse = Table.Children[0] as Ellipse;
-            //ellipse.Width = gridWidth;
-            //ellipse.Height = gridHeight;
-            //double height;
-            //foreach (Image img in gr_dealer.Children)
-            //{
-                
-            //    img.Height = gr_dealer.ActualHeight;
-            //    img.Width = gr_dealer.ActualHeight * ratio;
-            //    height = gr_dealer.ActualHeight;
-            //}
-            //foreach (Image img in grid_playerchips.Children)
-            //{
-            //    img.Height = grid_playerchips.ActualHeight;
-            //    img.Width = grid_playerchips.ActualHeight * ratio;
-            //}
+            double gridWidth = Table.ActualWidth;
+            double gridHeight = Table.ActualHeight;
+            double cardGridHeight = grCards.ActualHeight;
+            double ratio = 0.688;
+            Ellipse ellipse = Table.Children[0] as Ellipse;
+            ellipse.Width = gridWidth;
+            ellipse.Height = gridHeight;
+            double height;
 
-            //foreach (Image img in wp_player.Children)
-            //{
-            //    img.Height = gr_dealer.ActualHeight;
-            //    img.Width = gr_dealer.ActualHeight * ratio;
-            //}
-            //foreach (Image img in wp_bot0.Children)
-            //{
-            //    img.Height = gr_dealer.ActualHeight;
-            //    img.Width = gr_dealer.ActualHeight * ratio;
-            //}
-            //foreach (Image img in wp_bot1.Children)
-            //{
-            //    img.Height = gr_dealer.ActualHeight;
-            //    img.Width = gr_dealer.ActualHeight * ratio;
-            //}
-            //foreach (Image img in wp_bot2.Children)
-            //{
-            //    img.Height = gr_dealer.ActualHeight;
-            //    img.Width = gr_dealer.ActualHeight * ratio;
-            //}
-            //wp_player.HorizontalAlignment = HorizontalAlignment.Center;
-            //wp_player.VerticalAlignment = VerticalAlignment.Center;
-            //wp_bot0.HorizontalAlignment = HorizontalAlignment.Center;
-            //wp_bot0.VerticalAlignment = VerticalAlignment.Center;
-            //wp_bot1.HorizontalAlignment = HorizontalAlignment.Center;
-            //wp_bot1.VerticalAlignment = VerticalAlignment.Center;
-            //wp_bot2.HorizontalAlignment = HorizontalAlignment.Center;
-            //wp_bot2.VerticalAlignment = VerticalAlignment.Center;
+            for (int i = 0; i < 3; i++)
+            {
+                string[] typeArray = wp_player.Children[i].GetType().ToString().Split('.');
+                string type = typeArray[typeArray.Length - 1];
+                if (type == "Image")
+                {
+                    Image img = wp_player.Children[i] as Image;
+                    img.Height = grCards.ActualHeight;
+                    img.Width = img.ActualWidth * (ratio+1);
+                }
+                else if (type == "Label")
+                {
+                    Label lbl = wp_player.Children[i] as Label;
+                    lbl.FontSize = (grCards.ActualWidth * ratio) / 20;
+
+                }
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                string[] typeArray = wp_bot0.Children[i].GetType().ToString().Split('.');
+                string type = typeArray[typeArray.Length - 1];
+                if (type == "Image")
+                {
+                    Image img = wp_bot0.Children[i] as Image;
+                    img.Height = grCards.ActualHeight;
+                    img.Width = img.ActualWidth * (ratio + 1);
+                }
+                else if (type == "Label")                                 
+                {
+                    Label lbl = wp_bot0.Children[i] as Label;
+                    lbl.FontSize = (grCards.ActualWidth * ratio) / 20;
+                }
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                string[] typeArray = wp_bot1.Children[i].GetType().ToString().Split('.');
+                string type = typeArray[typeArray.Length - 1];
+                if (type == "Image")
+                {
+                    Image img = wp_bot1.Children[i] as Image;
+                    img.Height = grCards.ActualHeight;
+                    img.Width = img.ActualWidth * (ratio + 1);
+                }
+                else if (type == "Label")
+                {
+                    Label lbl = wp_bot1.Children[i] as Label;
+                    lbl.FontSize = (grCards.ActualWidth * ratio) / 20;
+                }
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                string[] typeArray = wp_bot2.Children[i].GetType().ToString().Split('.');
+                string type = typeArray[typeArray.Length - 1];
+                if (type == "Image")
+                {
+                    Image img = wp_bot2.Children[i] as Image;
+                    img.Height = grCards.ActualHeight;
+                    img.Width = img.ActualWidth * (ratio + 1);
+                }
+                else if (type == "Label")
+                {
+                    Label lbl = wp_bot2.Children[i] as Label;
+                    lbl.FontSize = (grCards.ActualWidth * ratio) / 20;
+                }
+            }
+            foreach (Image img in grCards.Children)
+            {
+                img.Height = grCards.ActualHeight;
+                img.Width = grCards.ActualWidth * ratio;
+            }
+            foreach (Image img in grid_playerchips.Children)
+            {
+                img.Height = grCards.ActualHeight*ratio;
+                img.Width = img.ActualWidth * (ratio + 1);
+            }
+            lb_moneyInPlay.FontSize = (grCards.ActualWidth * ratio) / 20;
+            lb_moneyInPlay.VerticalAlignment = VerticalAlignment.Bottom;
+            lb_moneyInPlay.HorizontalAlignment = HorizontalAlignment.Center;
+            wp_player.HorizontalAlignment = HorizontalAlignment.Stretch;
+            wp_player.Width = grCards.ActualWidth * ratio;
+            wp_player.VerticalAlignment = VerticalAlignment.Center;
+            wp_bot0.HorizontalAlignment = HorizontalAlignment.Stretch;
+            wp_bot0.VerticalAlignment = VerticalAlignment.Center;
+            wp_bot0.Width = grCards.ActualWidth * ratio;
+            wp_bot1.HorizontalAlignment = HorizontalAlignment.Stretch;
+            wp_bot1.VerticalAlignment = VerticalAlignment.Center;
+            wp_bot1.Width = grCards.ActualWidth * ratio;
+            wp_bot2.HorizontalAlignment = HorizontalAlignment.Stretch;
+            wp_bot2.VerticalAlignment = VerticalAlignment.Center;
+            wp_bot2.Width = grCards.ActualWidth * ratio;
+
+        }
+        public UIElement ColorChange(UIElement ui)
+        {
+            Random random = new Random();
+            byte red = (byte)random.Next(200);
+            byte green = 255;
+            byte blue = (byte)random.Next(200);
+
+            // Create a SolidColorBrush with the random color
+            SolidColorBrush brush = new SolidColorBrush(Color.FromRgb(red, green, blue));
+
+            // Set the background color of a UI element to the random color
+            ui.SetValue(BackgroundProperty, brush);
+            return ui;
         }
     }
 }

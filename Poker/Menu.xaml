@@ -25,7 +25,7 @@
             <RowDefinition Height="7*"></RowDefinition>
 
         </Grid.RowDefinitions>
-        <Label Grid.Row="1" Content="Poker" FontSize="45" FontFamily="Comic Sans MS" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"></Label>
+        <Label x:Name="Title" Grid.Row="1" Content="Poker" FontSize="45" FontFamily="Comic Sans MS" HorizontalAlignment="Center"  VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"></Label>
         <Button Grid.Row="3" Content="Play" FontSize="20" Click="Play" Grid.Column="1"></Button>
         <Button Grid.Row="5" Content="Settings" FontSize="20" Click="Settings" Grid.Column="1"></Button>
         <Button Grid.Row="7" Content="Close" FontSize="20" Click="Close" Grid.Column="1"></Button>
