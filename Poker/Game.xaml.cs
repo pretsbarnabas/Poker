@@ -27,6 +27,7 @@ namespace Poker
         Random random = new Random();
         int currentZseton;
         int startingMoney;
+        int numberofbots;
         List<Bot> bots;
         List<Card> cards;
         bool raised;
@@ -41,10 +42,10 @@ namespace Poker
         {
             InitializeComponent();
             InitalizeStartingMoney();
-            int numberofbots = 3;
+            numberofbots = 3;
             cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
             bots = GenerateBots(cards,numberofbots);
-            GeneratePlayerCards(cards);
+            GeneratePlayer(cards);
             AddChips(Menu.settings["Zsetonok"]);
             int playerMoney = Menu.settings["Zsetonok"];
         }
@@ -146,8 +147,24 @@ namespace Poker
             
             
         }
-
-        private void GeneratePlayerCards(List<Card>cards)
+        private void GiveNewCards()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                player.Cards.Add(PopRandomCard(cards));
+                foreach (Bot bot in bots)
+                {
+                    bot.Cards.Add(PopRandomCard(cards));
+                }
+            }
+            wp_player.Children.Add(LoadImage(player.Cards[0].ImagePath, 100, 100));
+            wp_player.Children.Add(LoadImage(player.Cards[1].ImagePath, 100, 100));
+            for (int i = 0; i < bots.Count; i++)
+            {
+                FillWrapPanel((WrapPanel)Board.Children[i + 1], bots[i]);
+            }
+        }
+        private void GeneratePlayer(List<Card>cards)
         {
             player = new Bot(PopRandomCard(cards), PopRandomCard(cards), startingMoney, 0);
             wp_player.Children.Add(LoadImage(player.Cards[0].ImagePath,100,100));
@@ -479,7 +496,7 @@ namespace Poker
                     this.Dispatcher.Invoke(() =>
                     {
                         WrapPanel wp = (WrapPanel)Board.Children[i + 1];
-                        wp.Children.Clear();
+                        wp.Children.RemoveRange(1,2);
                     });
                 }
                 else if (raised == true)
@@ -512,6 +529,10 @@ namespace Poker
                 {
                     CanAdvance = true;
                 }
+                else
+                {
+                    CanAdvance = false;
+                }
                 Dispatcher.Invoke(() =>
                 {
                     btn_check.Content = "Check";
@@ -522,14 +543,20 @@ namespace Poker
             if (CanAdvance)
             {
                 Debug.WriteLine("Advanced");
+                bool isItOver = false;
                 Dispatcher.Invoke(() =>
                 {
-                    if (grCards.Children.Count == 5)
+                    if (gr_dealer.Children.Count == 5)
                     {
                         Debug.WriteLine("End");
-                        ResetRound();
-                        return;
+                        Thread thread = new Thread(ResetRound);
+                        thread.Start();
+                        isItOver = true;
                     }
+                });
+                if (isItOver) { return; }
+                Dispatcher.Invoke(() =>
+                {
                     DealerTurn();
                 });
             }
@@ -578,30 +605,42 @@ namespace Poker
             {
                 Image img = (LoadImage("10.gif", 50, 50));
                 ColumnDefinition c = new();
-                grCards.ColumnDefinitions.Add(c);
+                gr_dealer.ColumnDefinitions.Add(c);
                 Grid.SetColumn(img, i+colStart);
-                grCards.Children.Add(img);
+                gr_dealer.Children.Add(img);
             }
         }
 
         public void ResetRound()
         {
-            ResetCards();
+            Dispatcher.Invoke(ResetCards);
+            Delay(1000);
+            turnPhase = 1;
+            IsCall = true;
+            CanAdvance = false;
+            Dispatcher.Invoke(() =>
+            {
+                GiveNewCards();
+                ToggleButtons(true);
+                gr_dealer.ColumnDefinitions.Clear();
+                btn_check.Content = "Call";
+            });
         }
 
         public void ResetCards()
         {
-            foreach (Bot bot in bots)
-            {
-                bot.Cards.Clear();
-            }
             for (int i = 0; i < bots.Count; i++)
             {
                 WrapPanel wp = (WrapPanel)Board.Children[i + 1];
                 wp.Children.RemoveRange(1, bots[i].Cards.Count);
             }
+            foreach (Bot bot in bots)
+            {
+                bot.Cards.Clear();
+            }
             wp_player.Children.RemoveRange(1, player.Cards.Count);
             player.Cards.Clear();
+            gr_dealer.Children.Clear();
             cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
         }
         
@@ -609,18 +648,18 @@ namespace Poker
         {
             //double gridWidth = Table.ActualWidth;
             //double gridHeight = Table.ActualHeight;
-            //double cardGridHeight = grCards.ActualHeight;
+            //double cardGridHeight = gr_dealer.ActualHeight;
             //double ratio = 0.688;
             //Ellipse ellipse = Table.Children[0] as Ellipse;
             //ellipse.Width = gridWidth;
             //ellipse.Height = gridHeight;
             //double height;
-            //foreach (Image img in grCards.Children)
+            //foreach (Image img in gr_dealer.Children)
             //{
                 
-            //    img.Height = grCards.ActualHeight;
-            //    img.Width = grCards.ActualHeight * ratio;
-            //    height = grCards.ActualHeight;
+            //    img.Height = gr_dealer.ActualHeight;
+            //    img.Width = gr_dealer.ActualHeight * ratio;
+            //    height = gr_dealer.ActualHeight;
             //}
             //foreach (Image img in grid_playerchips.Children)
             //{
@@ -630,23 +669,23 @@ namespace Poker
 
             //foreach (Image img in wp_player.Children)
             //{
-            //    img.Height = grCards.ActualHeight;
-            //    img.Width = grCards.ActualHeight * ratio;
+            //    img.Height = gr_dealer.ActualHeight;
+            //    img.Width = gr_dealer.ActualHeight * ratio;
             //}
             //foreach (Image img in wp_bot0.Children)
             //{
-            //    img.Height = grCards.ActualHeight;
-            //    img.Width = grCards.ActualHeight * ratio;
+            //    img.Height = gr_dealer.ActualHeight;
+            //    img.Width = gr_dealer.ActualHeight * ratio;
             //}
             //foreach (Image img in wp_bot1.Children)
             //{
-            //    img.Height = grCards.ActualHeight;
-            //    img.Width = grCards.ActualHeight * ratio;
+            //    img.Height = gr_dealer.ActualHeight;
+            //    img.Width = gr_dealer.ActualHeight * ratio;
             //}
             //foreach (Image img in wp_bot2.Children)
             //{
-            //    img.Height = grCards.ActualHeight;
-            //    img.Width = grCards.ActualHeight * ratio;
+            //    img.Height = gr_dealer.ActualHeight;
+            //    img.Width = gr_dealer.ActualHeight * ratio;
             //}
             //wp_player.HorizontalAlignment = HorizontalAlignment.Center;
             //wp_player.VerticalAlignment = VerticalAlignment.Center;

@@ -62,7 +62,7 @@
                     </Style>
                 </WrapPanel.Resources>
             </WrapPanel>-->
-            <Grid x:Name="grCards" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid x:Name="gr_dealer" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                 
             </Grid>
             <Grid x:Name="grid_playerchips" Grid.Row="2" Grid.Column="1" Panel.ZIndex="2" RenderTransformOrigin="0.5,0.5">
