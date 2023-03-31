@@ -588,5 +588,20 @@ namespace Poker
             wp_bot2.HorizontalAlignment = HorizontalAlignment.Center;
             wp_bot2.VerticalAlignment = VerticalAlignment.Center;
         }
+        public UIElement ColorChange(UIElement ui)
+        {
+            Random random = new Random();
+            byte red = (byte)random.Next(200);
+            byte green = 255;
+            byte blue = (byte)random.Next(200);
+
+            // Create a SolidColorBrush with the random color
+            SolidColorBrush brush = new SolidColorBrush(Color.FromRgb(red, green, blue));
+
+            // Set the background color of a UI element to the random color
+            ui.SetValue(BackgroundProperty, brush);
+            return ui;
+
+        }
     }
 }

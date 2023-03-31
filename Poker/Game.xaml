@@ -130,6 +130,6 @@
                 </Button.Resources>
             </Button>
         </Grid>
-        <Label x:Name="lb_moneyInPlay" Grid.Column="1" Content="0" HorizontalAlignment="Left" Margin="217,108,0,0" VerticalAlignment="Top" Height="27" Width="62" Grid.ColumnSpan="2"/>
+        <Label x:Name="lb_moneyInPlay" Content="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="27" Width="62"/>
     </Grid>
 </Page>
