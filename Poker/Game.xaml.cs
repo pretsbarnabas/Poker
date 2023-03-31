@@ -19,11 +19,15 @@ namespace Poker
         Random random = new Random();
         int currentZseton;
         int startingMoney;
+        int numberofbots;
         List<Bot> bots;
+        List<Card> cards;
         bool raised;
         int moneyInPlay = 0;
         int baseMoney = 20;
+        int turnPhase = 1;
         Bot player;
+        Bot dealer;
         bool IsCall = true;
         bool CanAdvance = false;
 
@@ -31,19 +35,11 @@ namespace Poker
         {
             InitializeComponent();
             InitalizeStartingMoney();
-            int numberofbots = 3;
-            List<Card> cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
-            bots = GenerateBots(cards, numberofbots);
-            GeneratePlayerCards(cards);
-            for (int i = 0; i < 4; i++)
-            {
-                Image img = (LoadImage("10.gif", 50, 50));
-                ColumnDefinition c = new();
-                grCards.ColumnDefinitions.Add(c);
-                Grid.SetColumn(img, i);
-                grCards.Children.Add(img);
-            }
-
+            numberofbots = 3;
+            cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
+            bots = GenerateBots(cards,numberofbots);
+            GeneratePlayer(cards);
+            dealer = new Bot(0);
             AddChips(Menu.settings["Zsetonok"]);
             int playerMoney = Menu.settings["Zsetonok"];
         }
@@ -52,7 +48,8 @@ namespace Poker
         {
             startingMoney = Menu.settings["Zsetonok"];
             ZsetonSlider.Maximum = Menu.settings["Zsetonok"];
-            ZsetonSlider.Value = Menu.settings["Zsetonok"] / 2;
+            ZsetonSlider.Minimum = baseMoney;
+            ZsetonSlider.Value = baseMoney;
         }
 
         private void AddChips(int money)
@@ -145,6 +142,24 @@ namespace Poker
 
         }
 
+        private void GiveNewCards()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                player.Cards.Add(PopRandomCard(cards));
+                foreach (Bot bot in bots)
+                {
+                    bot.Cards.Add(PopRandomCard(cards));
+                }
+            }
+            wp_player.Children.Add(LoadImage(player.Cards[0].ImagePath, 100, 100));
+            wp_player.Children.Add(LoadImage(player.Cards[1].ImagePath, 100, 100));
+            for (int i = 0; i < bots.Count; i++)
+            {
+                FillWrapPanel((WrapPanel)Board.Children[i + 1], bots[i]);
+            }
+        }
+        
         private void GeneratePlayerCards(List<Card> cards)
         {
             player = new Bot(PopRandomCard(cards), PopRandomCard(cards), startingMoney, 0);
@@ -430,6 +445,14 @@ namespace Poker
             Thread thread = new Thread(BotsMove);
             thread.Start();
         }
+        private void Fold_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleButtons(false);
+            wp_player.Children.RemoveRange(1, wp_player.Children.Count);
+            raised = false;
+            Thread thread = new Thread(BotsMove);
+            thread.Start();
+        }
 
         private void WagerMoney(Bot Player)
         {
@@ -458,7 +481,7 @@ namespace Poker
             for (int i = 0; i < bots.Count; i++)
             {
                 Delay(1000);
-                bots[i].Move(out raised, HandCheck(new List<Card>(), bots[i].Cards));
+                bots[i].Move(out raised, HandCheck(dealer.Cards, bots[i].Cards));
                 if (raised)
                 {
                     IsCall = true;
@@ -469,7 +492,7 @@ namespace Poker
                     this.Dispatcher.Invoke(() =>
                     {
                         WrapPanel wp = (WrapPanel)Board.Children[i + 1];
-                        wp.Children.Clear();
+                        wp.Children.RemoveRange(1,2);
                     });
                 }
                 else if (raised == true)
@@ -502,6 +525,10 @@ namespace Poker
                 {
                     CanAdvance = true;
                 }
+                else
+                {
+                    CanAdvance = false;
+                }
                 Dispatcher.Invoke(() =>
                 {
                     btn_check.Content = "Check";
@@ -512,9 +539,32 @@ namespace Poker
             if (CanAdvance)
             {
                 Debug.WriteLine("Advanced");
+                bool isItOver = false;
+                Dispatcher.Invoke(() =>
+                {
+                    if (wp_dealer.Children.Count == 5)
+                    {
+                        Debug.WriteLine("End");
+                        Thread thread = new Thread(ResetRound);
+                        thread.Start();
+                        isItOver = true;
+                    }
+                });
+                if (isItOver) { return; }
+                Dispatcher.Invoke(() =>
+                {
+                    DealerTurn();
+                });
             }
             this.Dispatcher.Invoke(() =>
             {
+                ZsetonSlider.Minimum = baseMoney;
+                if(wp_player.Children.Count == 1)
+                {
+                    Thread thread = new Thread(BotsMove);
+                    thread.Start();
+                    return;
+                }
                 ToggleButtons(true);
             });
         }
@@ -527,6 +577,66 @@ namespace Poker
             t.Wait();
         }
 
+        public void DealerTurn()
+        {
+            int numOfCards = 0;
+            switch (turnPhase)
+            {
+                case 1:
+                    numOfCards = 3;
+                    break;
+                case 2:
+                    numOfCards = 1;
+                    break;
+                case 3:
+                    numOfCards = 1;
+                    break;
+            }
+            turnPhase++;
+            for (int i = 0; i < numOfCards; i++)
+            {
+                dealer.Cards.Add(PopRandomCard(cards));
+            }
+            wp_dealer.Children.Clear();
+            foreach (Card card in dealer.Cards)
+            {
+                wp_dealer.Children.Add(LoadImage(card.ImagePath, 60, 60));
+            }
+        }
+
+        public void ResetRound()
+        {
+            Dispatcher.Invoke(ResetCards);
+            Delay(1000);
+            turnPhase = 1;
+            IsCall = true;
+            CanAdvance = false;
+            Dispatcher.Invoke(() =>
+            {
+                GiveNewCards();
+                ToggleButtons(true);
+                btn_check.Content = "Call";
+            });
+        }
+
+        public void ResetCards()
+        {
+            for (int i = 0; i < bots.Count; i++)
+            {
+                WrapPanel wp = (WrapPanel)Board.Children[i + 1];
+                wp.Children.RemoveRange(1, bots[i].Cards.Count);
+            }
+            foreach (Bot bot in bots)
+            {
+                bot.Cards.Clear();
+            }
+            wp_player.Children.RemoveRange(1, player.Cards.Count);
+            player.Cards.Clear();
+            dealer.Cards.Clear();
+            wp_dealer.Children.Clear();
+            cards = File.ReadAllLines("cards.txt").Select(x => new Card(x)).ToList();
+        }
+        
         private void gridSizeChange(object sender, SizeChangedEventArgs e)
         {
             double gridWidth = Table.ActualWidth;
@@ -644,7 +754,6 @@ namespace Poker
             // Set the background color of a UI element to the random color
             ui.SetValue(BackgroundProperty, brush);
             return ui;
-
         }
     }
 }

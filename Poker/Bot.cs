@@ -21,6 +21,12 @@ namespace Poker
             Money = defaultMoney;
             Num = num;
         }
+        public Bot(int defaultMoney)
+        {
+            Cards = new List<Card>();
+            Money = defaultMoney;
+            Num = 0;
+        }
         public void Move(out bool raised, (int,int) hand)
         {
             if (Cards.Count == 0) { raised = false; return; }
@@ -34,7 +40,7 @@ namespace Poker
                 Debug.WriteLine("folds");
                 raised = false;
             }
-            else if(winningchance < 0.4)
+            else if(winningchance < 0.7)
             {
                 Debug.WriteLine("checks");
                 raised = false;
