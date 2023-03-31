@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Poker;
 
 namespace Poker
 {
@@ -30,6 +32,7 @@ namespace Poker
 
 
             InitializeComponent();
+            new Thread(TitleAnimation).Start();
         }
 
         private void Play(object sender, RoutedEventArgs e)
@@ -112,6 +115,44 @@ namespace Poker
             catch (Exception)
             {
                 MessageBox.Show("Invalid input", ">:(", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void TitleAnimation()
+        {
+            while (true)
+            {
+                for (int i = 0; i < 100; i++)
+                {
+                    this.Title.Dispatcher.Invoke(() =>
+                    {
+                        ScaleTransform scale = new ScaleTransform();
+                        scale.ScaleX = 1 + i / 100.0;
+                        scale.ScaleY = 1 + i / 100.0;
+                        Title.RenderTransformOrigin = new Point(0.5, 0.5); // set origin to center
+                        Title.RenderTransform = scale;
+                    });
+
+                    Thread.Sleep(5);
+                }
+                this.Title.Dispatcher.Invoke(() =>
+                {
+                    Game g = new Game();
+                    gridMenu = (Grid)g.ColorChange(gridMenu);
+                });
+
+                for (int i = 100; i > 0; i--)
+                {
+                    this.Title.Dispatcher.Invoke(() =>
+                    {
+                        ScaleTransform scale = new ScaleTransform();
+                        scale.ScaleX = 1 + i / 100.0;
+                        scale.ScaleY = 1 + i / 100.0;
+                        Title.RenderTransformOrigin = new Point(0.5, 0.5); // set origin to center
+                        Title.RenderTransform = scale;
+                    });
+
+                    Thread.Sleep(5);
+                }
             }
         }
     }
