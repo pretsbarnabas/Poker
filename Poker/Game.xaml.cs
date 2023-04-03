@@ -383,7 +383,35 @@ namespace Poker
 
         }
 
+        private Bot GetWinner(List<Bot> allPlayer)
+        {
+            Bot winner = null;
+            (int, int) highestHand = (0, 0);
 
+            for (int i = 0; i < allPlayer.Count; i++)
+            {
+                (int, int) actualHandStrength = HandCheck(dealer.Cards, allPlayer[i].Cards);
+                if (actualHandStrength.Item1 > highestHand.Item1)
+                {
+                    highestHand = actualHandStrength;
+                    winner = allPlayer[i];
+                }
+                else if (actualHandStrength.Item1 == highestHand.Item1 && actualHandStrength.Item2 > highestHand.Item2)
+                {
+                    highestHand = actualHandStrength;
+                    winner = allPlayer[i];
+                }
+            }
+
+            return winner;
+        }
+
+        private void GameEnd(Bot winner)
+        {
+          winner.Money += int.Parse(lb_moneyInPlay.Content.ToString());
+          lb_moneyInPlay.Content = '0';
+           
+        }
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             currentZseton = Convert.ToInt32(ZsetonSlider.Value);
@@ -438,12 +466,15 @@ namespace Poker
         }
         private void Raise_Click(object sender, RoutedEventArgs e)
         {
-            ToggleButtons(false);
-            baseMoney = currentZseton;
-            WagerMoney(player);
-            IsCall = true;
-            Thread thread = new Thread(BotsMove);
-            thread.Start();
+            if (player.Money>0)
+            {
+                ToggleButtons(false);
+                baseMoney = currentZseton;
+                WagerMoney(player);
+                IsCall = true;
+                Thread thread = new Thread(BotsMove);
+                thread.Start();
+            }
         }
         private void Fold_Click(object sender, RoutedEventArgs e)
         {
@@ -621,6 +652,10 @@ namespace Poker
 
         public void ResetCards()
         {
+            List<Bot> players = new(bots);
+            players.Add(player);
+            Bot wnr = GetWinner(players);
+            GameEnd(wnr);
             for (int i = 0; i < bots.Count; i++)
             {
                 WrapPanel wp = (WrapPanel)Board.Children[i + 1];
