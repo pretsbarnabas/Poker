@@ -383,20 +383,34 @@ namespace Poker
 
         }
 
-        private void GameEnd(List<Bot> allPlayer)
+        private Bot GetWinner(List<Bot> allPlayer)
         {
-            List<Bot> winners = new();
-            Bot winner;
+            Bot winner = null;
             (int, int) highestHand = (0, 0);
-            foreach (Bot player in allPlayer)
+
+            for (int i = 0; i < allPlayer.Count; i++)
             {
-                (int, int) actualHandStrength = HandCheck(dealer.Cards, player.Cards);
-                if (actualHandStrength.Item1 >= highestHand.Item1)
+                (int, int) actualHandStrength = HandCheck(dealer.Cards, allPlayer[i].Cards);
+                if (actualHandStrength.Item1 > highestHand.Item1)
                 {
                     highestHand = actualHandStrength;
-                    winner = player;
+                    winner = allPlayer[i];
+                }
+                else if (actualHandStrength.Item1 == highestHand.Item1 && actualHandStrength.Item2 > highestHand.Item2)
+                {
+                    highestHand = actualHandStrength;
+                    winner = allPlayer[i];
                 }
             }
+
+            return winner;
+        }
+
+        private void GameEnd(Bot winner)
+        {
+          winner.Money += int.Parse(lb_moneyInPlay.Content.ToString());
+          lb_moneyInPlay.Content = '0';
+           
         }
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -638,6 +652,10 @@ namespace Poker
 
         public void ResetCards()
         {
+            List<Bot> players = new(bots);
+            players.Add(player);
+            Bot wnr = GetWinner(players);
+            GameEnd(wnr);
             for (int i = 0; i < bots.Count; i++)
             {
                 WrapPanel wp = (WrapPanel)Board.Children[i + 1];
