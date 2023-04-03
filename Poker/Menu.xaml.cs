@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -22,7 +23,8 @@ namespace Poker
     /// </summary>
     public partial class Menu : Page
     {
-            public static Dictionary<string, int> settings = new Dictionary<string, int>();
+        public static Dictionary<string, int> settings = new Dictionary<string, int>();
+        bool animationRun = true;
         public Menu()
         {
             if (settings.Count == 0)
@@ -37,11 +39,13 @@ namespace Poker
 
         private void Play(object sender, RoutedEventArgs e)
         {
+            animationRun = false;
             this.NavigationService.Navigate(new Uri("Game.xaml", UriKind.Relative));
         }
 
         private void Close(object sender, RoutedEventArgs e)
         {
+            animationRun = false;
             Application.Current.Shutdown();
         }
 
@@ -119,7 +123,7 @@ namespace Poker
         }
         private void TitleAnimation()
         {
-            while (true)
+            while (animationRun)
             {
                 for (int i = 0; i < 100; i++)
                 {
