@@ -683,97 +683,111 @@ namespace Poker
             ellipse.Height = gridHeight;
             double height;
 
-            for (int i = 0; i < 3; i++)
+            if (wp_player.Children.Count>1)
             {
-                string[] typeArray = wp_player.Children[i].GetType().ToString().Split('.');
-                string type = typeArray[typeArray.Length - 1];
-                if (type == "Image")
+                for (int i = 0; i < 3; i++)
                 {
-                    Image img = wp_player.Children[i] as Image;
-                    img.Height = wp_dealer.ActualHeight;
-                    img.Width = img.ActualWidth * (ratio+1);
-                }
-                else if (type == "Label")
-                {
-                    Label lbl = wp_player.Children[i] as Label;
-                    lbl.FontSize = (wp_dealer.ActualWidth * ratio) / 20;
+                    string[] typeArray = wp_player.Children[i].GetType().ToString().Split('.');
+                    string type = typeArray[typeArray.Length - 1];
+                    if (type == "Image")
+                    {
+                        Image img = wp_player.Children[i] as Image;
+                        img.Height = wp_responsive.ActualHeight;
+                        img.Width = img.ActualWidth * (ratio+1);
+                    }
+                    else if (type == "Label")
+                    {
+                        Label lbl = wp_player.Children[i] as Label;
+                        lbl.FontSize = (wp_responsive.ActualWidth * ratio) / 20;
 
+                    }
                 }
             }
-            for (int i = 0; i < 3; i++)
+            if (wp_bot0.Children.Count>1)
             {
-                string[] typeArray = wp_bot0.Children[i].GetType().ToString().Split('.');
-                string type = typeArray[typeArray.Length - 1];
-                if (type == "Image")
+                for (int i = 0; i < 3; i++)
                 {
-                    Image img = wp_bot0.Children[i] as Image;
-                    img.Height = wp_dealer.ActualHeight;
-                    img.Width = img.ActualWidth * (ratio + 1);
-                }
-                else if (type == "Label")                                 
-                {
-                    Label lbl = wp_bot0.Children[i] as Label;
-                    lbl.FontSize = (wp_dealer.ActualWidth * ratio) / 20;
+                    string[] typeArray = wp_bot0.Children[i].GetType().ToString().Split('.');
+                    string type = typeArray[typeArray.Length - 1];
+                    if (type == "Image")
+                    {
+                        Image img = wp_bot0.Children[i] as Image;
+                        img.Height = wp_responsive.ActualHeight;
+                        img.Width = img.ActualWidth * (ratio + 1);
+                    }
+                    else if (type == "Label")                                 
+                    {
+                        Label lbl = wp_bot0.Children[i] as Label;
+                        lbl.FontSize = (wp_responsive.ActualWidth * ratio) / 20;
+                    }
                 }
             }
 
-            for (int i = 0; i < 3; i++)
+            if (wp_bot1.Children.Count>1)
             {
-                string[] typeArray = wp_bot1.Children[i].GetType().ToString().Split('.');
-                string type = typeArray[typeArray.Length - 1];
-                if (type == "Image")
+                for (int i = 0; i < 3; i++)
                 {
-                    Image img = wp_bot1.Children[i] as Image;
-                    img.Height = wp_dealer.ActualHeight;
-                    img.Width = img.ActualWidth * (ratio + 1);
+                    string[] typeArray = wp_bot1.Children[i].GetType().ToString().Split('.');
+                    string type = typeArray[typeArray.Length - 1];
+                    if (type == "Image")
+                    {
+                        Image img = wp_bot1.Children[i] as Image;
+                        img.Height = wp_responsive.ActualHeight;
+                        img.Width = img.ActualWidth * (ratio + 1);
+                    }
+                    else if (type == "Label")
+                    {
+                        Label lbl = wp_bot1.Children[i] as Label;
+                        lbl.FontSize = (wp_responsive.ActualWidth * ratio) / 20;
+                    }
                 }
-                else if (type == "Label")
-                {
-                    Label lbl = wp_bot1.Children[i] as Label;
-                    lbl.FontSize = (wp_dealer.ActualWidth * ratio) / 20;
-                }
+
             }
-            for (int i = 0; i < 3; i++)
+            if (wp_bot2.Children.Count>1)
             {
-                string[] typeArray = wp_bot2.Children[i].GetType().ToString().Split('.');
-                string type = typeArray[typeArray.Length - 1];
-                if (type == "Image")
+                for (int i = 0; i < 3; i++)
                 {
-                    Image img = wp_bot2.Children[i] as Image;
-                    img.Height = wp_dealer.ActualHeight;
-                    img.Width = img.ActualWidth * (ratio + 1);
+                    string[] typeArray = wp_bot2.Children[i].GetType().ToString().Split('.');
+                    string type = typeArray[typeArray.Length - 1];
+                    if (type == "Image")
+                    {
+                        Image img = wp_bot2.Children[i] as Image;
+                        img.Height = wp_responsive.ActualHeight;
+                        img.Width = img.ActualWidth * (ratio + 1);
+                    }
+                    else if (type == "Label")
+                    {
+                        Label lbl = wp_bot2.Children[i] as Label;
+                        lbl.FontSize = (wp_responsive.ActualWidth * ratio) / 20;
+                    }
                 }
-                else if (type == "Label")
-                {
-                    Label lbl = wp_bot2.Children[i] as Label;
-                    lbl.FontSize = (wp_dealer.ActualWidth * ratio) / 20;
-                }
+
             }
             foreach (Image img in wp_dealer.Children)
             {
-                img.Height = wp_dealer.ActualHeight;
-                img.Width = wp_dealer.ActualWidth * ratio;
+                img.Height = wp_responsive.ActualHeight;
+                img.Width = img.ActualWidth * (ratio+1);
             }
             foreach (Image img in grid_playerchips.Children)
             {
-                img.Height = wp_dealer.ActualHeight*ratio;
+                img.Height = wp_responsive.ActualHeight*ratio;
                 img.Width = img.ActualWidth * (ratio + 1);
             }
-            lb_moneyInPlay.FontSize = (wp_dealer.ActualWidth * ratio) / 20;
+            lb_moneyInPlay.FontSize = (wp_responsive.ActualWidth * ratio) / 20;
             lb_moneyInPlay.VerticalAlignment = VerticalAlignment.Bottom;
             lb_moneyInPlay.HorizontalAlignment = HorizontalAlignment.Center;
             wp_player.HorizontalAlignment = HorizontalAlignment.Stretch;
-            wp_player.Width = wp_dealer.ActualWidth * ratio;
+            wp_player.Width = wp_responsive.ActualWidth * ratio;
             wp_player.VerticalAlignment = VerticalAlignment.Center;
             wp_bot0.HorizontalAlignment = HorizontalAlignment.Stretch;
             wp_bot0.VerticalAlignment = VerticalAlignment.Center;
-            wp_bot0.Width = wp_dealer.ActualWidth * ratio;
+            wp_bot0.Width = wp_responsive.ActualWidth * ratio;
             wp_bot1.HorizontalAlignment = HorizontalAlignment.Stretch;
             wp_bot1.VerticalAlignment = VerticalAlignment.Center;
-            wp_bot1.Width = wp_dealer.ActualWidth * ratio;
+            wp_bot1.Width = wp_responsive.ActualWidth * ratio;
             wp_bot2.HorizontalAlignment = HorizontalAlignment.Stretch;
             wp_bot2.VerticalAlignment = VerticalAlignment.Center;
-            wp_bot2.Width = wp_dealer.ActualWidth * ratio;
+            wp_bot2.Width = wp_responsive.ActualWidth * ratio;
 
         }
         public UIElement ColorChange(UIElement ui)
