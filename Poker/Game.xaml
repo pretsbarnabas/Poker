@@ -63,8 +63,8 @@
             </WrapPanel>-->
             <WrapPanel x:Name="wp_responsive" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="125,0,125,0" Panel.ZIndex="1"/>
             <WrapPanel x:Name="wp_dealer" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="125,0,125,0" Panel.ZIndex="2"/>
-            
-            <Grid x:Name="grid_playerchips" Grid.Row="2" Grid.Column="1" Panel.ZIndex="2" RenderTransformOrigin="0.5,0.5">
+
+            <Grid x:Name="grid_playerchips" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Panel.ZIndex="2" RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="-1" ScaleY="-1"/>
@@ -74,10 +74,6 @@
                     </TransformGroup>
                 </Grid.RenderTransform>
             </Grid>
-
-            <Grid x:Name="grid_bot0" Grid.Column="0" Grid.Row="2"></Grid>
-            <Grid x:Name="grid_bot1" Grid.Column="0" Grid.Row="0"></Grid>
-            <Grid x:Name="grid_bot2" Grid.Column="1" Grid.Row="0"></Grid>
         </Grid>
 
 

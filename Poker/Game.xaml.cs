@@ -54,90 +54,112 @@ namespace Poker
 
         private void AddChips(int money)
         {
+            double ratio = 0.688;
+            grid_playerchips.Children.Clear();
             int privateMoney = money;
+            int coinNumber = 0;
             while (privateMoney != 0)
             {
                 int numOfChips = money / 1000;
                 privateMoney = privateMoney - numOfChips * 1000;
                 for (int i = 0; i < numOfChips; i++)
                 {
-                    grid_playerchips.Children.Add(LoadImage("dark_red.png", "chips", 50, 50));
+                    grid_playerchips.Children.Add(LoadImage("dark_red.png", "chips", wp_responsive.ActualHeight*ratio, (wp_responsive.ActualWidth * ratio) / 1.2));
                     Image image = (Image)grid_playerchips.Children[i];
-                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                    image.Margin = new Thickness(coinNumber * ((wp_responsive.ActualWidth * ratio) / 7), 0, 0, 0);
+                    coinNumber++;
                 }
                 numOfChips = privateMoney / 500;
                 privateMoney = privateMoney - numOfChips * 500;
 
                 for (int i = 0; i < numOfChips; i++)
                 {
-                    grid_playerchips.Children.Add(LoadImage("red.png", "chips", 50, 50));
+                    grid_playerchips.Children.Add(LoadImage("red.png", "chips", wp_responsive.ActualHeight*ratio, (wp_responsive.ActualWidth * ratio) / 1.2));
                     Image image = (Image)grid_playerchips.Children[i];
-                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                    image.Margin = new Thickness(coinNumber * ((wp_responsive.ActualWidth * ratio) / 7), 0, 0, 0);
+                    coinNumber++;
                 }
                 numOfChips = privateMoney / 200;
                 privateMoney = privateMoney - numOfChips * 200;
 
                 for (int i = 0; i < numOfChips; i++)
                 {
-                    grid_playerchips.Children.Add(LoadImage("dark_blue.png", "chips", 50, 50));
+                    grid_playerchips.Children.Add(LoadImage("dark_blue.png", "chips", wp_responsive.ActualHeight * ratio, (wp_responsive.ActualWidth * ratio) / 1.2));
                     Image image = (Image)grid_playerchips.Children[i];
-                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                    image.Margin = new Thickness(coinNumber * ((wp_responsive.ActualWidth * ratio) / 7), 0, 0, 0);
+                    coinNumber++;
                 }
                 numOfChips = privateMoney / 100;
                 privateMoney = privateMoney - numOfChips * 100;
 
                 for (int i = 0; i < numOfChips; i++)
                 {
-                    grid_playerchips.Children.Add(LoadImage("blue.png", "chips", 50, 50));
+                    grid_playerchips.Children.Add(LoadImage("blue.png", "chips", wp_responsive.ActualHeight * ratio, (wp_responsive.ActualWidth * ratio) / 1.2));
                     Image image = (Image)grid_playerchips.Children[i];
-                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                    image.Margin = new Thickness(coinNumber * ((wp_responsive.ActualWidth * ratio) / 7), 0, 0, 0);
+                    coinNumber++;
                 }
                 numOfChips = privateMoney / 50;
                 privateMoney = privateMoney - numOfChips * 50;
 
                 for (int i = 0; i < numOfChips; i++)
                 {
-                    grid_playerchips.Children.Add(LoadImage("purple.png", "chips", 50, 50));
+                    grid_playerchips.Children.Add(LoadImage("purple.png", "chips", wp_responsive.ActualHeight * ratio, (wp_responsive.ActualWidth * ratio) / 1.2));
                     Image image = (Image)grid_playerchips.Children[i];
-                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                    image.Margin = new Thickness(coinNumber * ((wp_responsive.ActualWidth * ratio) / 7), 0, 0, 0);
+                    coinNumber++;
                 }
                 numOfChips = privateMoney / 25;
                 privateMoney = privateMoney - numOfChips * 25;
 
                 for (int i = 0; i < numOfChips; i++)
                 {
-                    grid_playerchips.Children.Add(LoadImage("green.png", "chips", 50, 50));
+                    grid_playerchips.Children.Add(LoadImage("green.png", "chips", wp_responsive.ActualHeight * ratio, (wp_responsive.ActualWidth * ratio) / 1.2));
                     Image image = (Image)grid_playerchips.Children[i];
-                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                    image.Margin = new Thickness(coinNumber * ((wp_responsive.ActualWidth * ratio) / 7), 0, 0, 0);
+                    coinNumber++;
                 }
                 numOfChips = privateMoney / 10;
                 privateMoney = privateMoney - numOfChips * 10;
 
                 for (int i = 0; i < numOfChips; i++)
                 {
-                    grid_playerchips.Children.Add(LoadImage("orange.png", "chips", 50, 50));
+                    grid_playerchips.Children.Add(LoadImage("orange.png", "chips", wp_responsive.ActualHeight * ratio, (wp_responsive.ActualWidth * ratio) / 1.2));
                     Image image = (Image)grid_playerchips.Children[i];
-                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                    image.Margin = new Thickness(coinNumber * ((wp_responsive.ActualWidth * ratio) / 7), 0, 0, 0);
+                    coinNumber++;
                 }
                 numOfChips = privateMoney / 5;
                 privateMoney = privateMoney - numOfChips * 5;
 
                 for (int i = 0; i < numOfChips; i++)
                 {
-                    grid_playerchips.Children.Add(LoadImage("yellow.png", "chips", 50, 50));
+                    grid_playerchips.Children.Add(LoadImage("yellow.png", "chips", wp_responsive.ActualHeight*ratio, (wp_responsive.ActualWidth * ratio) / 1.2));
                     Image image = (Image)grid_playerchips.Children[i];
-                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                    image.Margin = new Thickness(coinNumber * ((wp_responsive.ActualWidth * ratio) / 7), 0, 0, 0);
+                    coinNumber++;
                 }
                 numOfChips = privateMoney;
                 privateMoney = privateMoney - numOfChips;
 
                 for (int i = 0; i < numOfChips; i++)
                 {
-                    grid_playerchips.Children.Add(LoadImage("pink.png", "chips", 50, 50));
+                    grid_playerchips.Children.Add(LoadImage("pink.png", "chips", wp_responsive.ActualHeight * ratio, (wp_responsive.ActualWidth * ratio) / 1.2));
                     Image image = (Image)grid_playerchips.Children[i];
-                    image.Margin = new Thickness(i * 10, 0, 0, 0);
+                    image.Margin = new Thickness(coinNumber * ((wp_responsive.ActualWidth * ratio) / 7), 0, 0, 0);
+                    coinNumber++;
                 }
             }
+            int coinCounter = 0;
+            foreach (Image img in grid_playerchips.Children)
+            {
+                img.Height = wp_responsive.ActualHeight * ratio;
+                img.Width = (wp_responsive.ActualWidth * ratio) / 1.2;
+                img.Margin = new Thickness(coinCounter * ((wp_responsive.ActualWidth * ratio) / 7), 0, 0, 0);
+                coinCounter++;
+            }
+
+
 
 
         }
@@ -410,6 +432,7 @@ namespace Poker
         {
           winner.Money += int.Parse(lb_moneyInPlay.Content.ToString());
           lb_moneyInPlay.Content = '0';
+          AddChips(int.Parse(lb_playermoney.Content.ToString()));
            
         }
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -417,7 +440,7 @@ namespace Poker
             currentZseton = Convert.ToInt32(ZsetonSlider.Value);
         }
 
-        public Image LoadImage(string path, int height, int width)
+        public Image LoadImage(string path, double height, double width)
         {
             Image image = new Image();
             string packUri = $"pic/{path}";
@@ -426,7 +449,7 @@ namespace Poker
             image.Width = width;
             return image;
         }
-        public Image LoadImage(string filename, string directory, int height, int width)
+        public Image LoadImage(string filename, string directory, double height, double width)
         {
             Image image = new Image();
             string packUri = $"{directory}/{filename}";
@@ -463,6 +486,8 @@ namespace Poker
             raised = false;
             Thread thread = new Thread(BotsMove); // megse lesz ez a 13. okom
             thread.Start();
+            AddChips(int.Parse(lb_playermoney.Content.ToString()));
+
         }
         private void Raise_Click(object sender, RoutedEventArgs e)
         {
@@ -474,6 +499,8 @@ namespace Poker
                 IsCall = true;
                 Thread thread = new Thread(BotsMove);
                 thread.Start();
+                AddChips(int.Parse(lb_playermoney.Content.ToString()));
+
             }
         }
         private void Fold_Click(object sender, RoutedEventArgs e)
@@ -610,6 +637,7 @@ namespace Poker
 
         public void DealerTurn()
         {
+            double ratio = 0.688; 
             int numOfCards = 0;
             switch (turnPhase)
             {
@@ -631,7 +659,7 @@ namespace Poker
             wp_dealer.Children.Clear();
             foreach (Card card in dealer.Cards)
             {
-                wp_dealer.Children.Add(LoadImage(card.ImagePath, 60, 60));
+                wp_dealer.Children.Add(LoadImage(card.ImagePath, wp_responsive.ActualHeight, (wp_responsive.ActualWidth * ratio) / 3.5));
             }
         }
 
@@ -766,12 +794,15 @@ namespace Poker
             foreach (Image img in wp_dealer.Children)
             {
                 img.Height = wp_responsive.ActualHeight;
-                img.Width = img.ActualWidth * (ratio+1);
+                img.Width =(wp_responsive.ActualWidth * ratio)/3.5;
             }
+            int coinCounter = 0;
             foreach (Image img in grid_playerchips.Children)
             {
                 img.Height = wp_responsive.ActualHeight*ratio;
-                img.Width = img.ActualWidth * (ratio + 1);
+                img.Width = (wp_responsive.ActualWidth * ratio) / 1.2;
+                img.Margin = new Thickness(coinCounter* ((wp_responsive.ActualWidth * ratio) / 7), 0,0,0);
+                coinCounter++;
             }
             lb_moneyInPlay.FontSize = (wp_responsive.ActualWidth * ratio) / 20;
             lb_moneyInPlay.VerticalAlignment = VerticalAlignment.Bottom;
