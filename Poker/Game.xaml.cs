@@ -493,13 +493,13 @@ namespace Poker
         {
             if (player.Money>0)
             {
-                ToggleButtons(false);
-                baseMoney = currentZseton;
-                WagerMoney(player);
-                IsCall = true;
-                Thread thread = new Thread(BotsMove);
-                thread.Start();
-                AddChips(int.Parse(lb_playermoney.Content.ToString()));
+                    ToggleButtons(false);
+                    baseMoney = currentZseton;
+                    WagerMoney(player);
+                    IsCall = true;
+                    Thread thread = new Thread(BotsMove);
+                    thread.Start();
+                    AddChips(int.Parse(lb_playermoney.Content.ToString()));
 
             }
         }
@@ -514,16 +514,34 @@ namespace Poker
 
         private void WagerMoney(Bot Player)
         {
-            moneyInPlay += baseMoney;
-            Player.Money -= baseMoney;
-            if (Player == player)
+            if (player.Money>=20)
             {
-                ZsetonSlider.Maximum = player.Money;
+                moneyInPlay += baseMoney;
+                Player.Money -= baseMoney;
+                if (Player == player)
+                {
+                    ZsetonSlider.Maximum = player.Money;
+                }
+                WrapPanel wp = (WrapPanel)Board.Children[Player.Num];
+                Label label = (Label)wp.Children[0];
+                lb_moneyInPlay.Content = $"{moneyInPlay}";
+                label.Content = $"{Player.Money}";         
+
             }
-            WrapPanel wp = (WrapPanel)Board.Children[Player.Num];
-            Label label = (Label)wp.Children[0];
-            lb_moneyInPlay.Content = $"{moneyInPlay}";
-            label.Content = $"{Player.Money}";
+            else
+            {
+                moneyInPlay += player.Money;
+                Player.Money -= player.Money;
+                if (Player == player)
+                {
+                    ZsetonSlider.Maximum = player.Money;
+                }
+                WrapPanel wp = (WrapPanel)Board.Children[Player.Num];
+                Label label = (Label)wp.Children[0];
+                lb_moneyInPlay.Content = $"{moneyInPlay}";
+                label.Content = $"{Player.Money}";
+                ZsetonSliderValue.Content = player.Money;
+            }
         }
 
         private void ToggleButtons(bool IsEnabled)
