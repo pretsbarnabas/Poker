@@ -761,9 +761,9 @@ namespace Poker
         public UIElement ColorChange(UIElement ui)
         {
             Random random = new Random();
-            byte red = (byte)random.Next(200);
-            byte green = 255;
-            byte blue = (byte)random.Next(200);
+            byte red = (byte)random.Next(255);
+            byte green = (byte)random.Next(255);
+            byte blue = (byte)random.Next(255);
 
             // Create a SolidColorBrush with the random color
             SolidColorBrush brush = new SolidColorBrush(Color.FromRgb(red, green, blue));
