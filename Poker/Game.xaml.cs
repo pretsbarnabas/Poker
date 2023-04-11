@@ -22,6 +22,7 @@ namespace Poker
         int numberofbots;
         List<Bot> bots;
         List<Card> cards;
+        double ratio = 0.688;
         bool raised;
         int moneyInPlay = 0;
         int baseMoney = 20;
@@ -54,7 +55,7 @@ namespace Poker
 
         private void AddChips(int money)
         {
-            double ratio = 0.688;
+            
             grid_playerchips.Children.Clear();
             int privateMoney = money;
             int coinNumber = 0;
@@ -174,11 +175,12 @@ namespace Poker
                     bot.Cards.Add(PopRandomCard(cards));
                 }
             }
-            wp_player.Children.Add(LoadImage(player.Cards[0].ImagePath, 100, 100));
-            wp_player.Children.Add(LoadImage(player.Cards[1].ImagePath, 100, 100));
+            wp_player.Children.Add(LoadImage(player.Cards[0].ImagePath, wp_responsive.ActualHeight, (wp_responsive.ActualWidth * ratio) / 3.5));
+            wp_player.Children.Add(LoadImage(player.Cards[1].ImagePath, wp_responsive.ActualHeight, (wp_responsive.ActualWidth * ratio) / 3.5));
+            lb_playermoney.Content = $"{player.Money}";
             for (int i = 0; i < bots.Count; i++)
             {
-                FillWrapPanel((WrapPanel)Board.Children[i + 1], bots[i]);
+                FillWrapPanel((WrapPanel)Board.Children[i + 1], bots[i], true);
             }
         }
         
@@ -430,9 +432,12 @@ namespace Poker
 
         private void GameEnd(Bot winner)
         {
-          winner.Money += int.Parse(lb_moneyInPlay.Content.ToString());
-          lb_moneyInPlay.Content = '0';
-          AddChips(int.Parse(lb_playermoney.Content.ToString()));
+            winner.Money += int.Parse(lb_moneyInPlay.Content.ToString());
+            lb_moneyInPlay.Content = '0';
+            WrapPanel wp = (WrapPanel)Board.Children[winner.Num];
+            Label lb = (Label)wp.Children[0];
+            AddChips(int.Parse(lb_playermoney.Content.ToString()));
+            lb.Content = "Winner";
            
         }
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -465,14 +470,22 @@ namespace Poker
             {
                 Bot bot = new Bot(PopRandomCard(cards), PopRandomCard(cards), startingMoney, i + 1);
                 bots.Add(bot);
-                FillWrapPanel((WrapPanel)Board.Children[i + 1], bots[i]);
+                FillWrapPanel((WrapPanel)Board.Children[i + 1], bots[i], false);
             }
             return bots;
         }
-        public void FillWrapPanel(WrapPanel wp, Bot bot)
+        public void FillWrapPanel(WrapPanel wp, Bot bot, bool responsive)
         {
+            if (responsive)
+            {
+                wp.Children.Add(LoadImage("Hátlap.gif", wp_responsive.ActualHeight, (wp_responsive.ActualWidth * ratio) / 3.5));
+                wp.Children.Add(LoadImage("Hátlap.gif", wp_responsive.ActualHeight, (wp_responsive.ActualWidth * ratio) / 3.5));
+            }
+            else
+            {
             wp.Children.Add(LoadImage("Hátlap.gif", 100, 100));
             wp.Children.Add(LoadImage("Hátlap.gif", 100, 100));
+            }
             Label label = (Label)wp.Children[0];
             label.Content = $"{bot.Money}";
         }
@@ -655,7 +668,6 @@ namespace Poker
 
         public void DealerTurn()
         {
-            double ratio = 0.688; 
             int numOfCards = 0;
             switch (turnPhase)
             {
@@ -683,25 +695,46 @@ namespace Poker
 
         public void ResetRound()
         {
+            Dispatcher.Invoke(RevealCards);
+            Delay(5000);
             Dispatcher.Invoke(ResetCards);
             Delay(1000);
             turnPhase = 1;
             IsCall = true;
             CanAdvance = false;
+            moneyInPlay = 0;
             Dispatcher.Invoke(() =>
             {
+                lb_moneyInPlay.Content = "0";
                 GiveNewCards();
                 ToggleButtons(true);
                 btn_check.Content = "Call";
             });
         }
 
-        public void ResetCards()
+        private void RevealCards()
         {
             List<Bot> players = new(bots);
             players.Add(player);
             Bot wnr = GetWinner(players);
             GameEnd(wnr);
+            for (int i = 0; i < bots.Count; i++)
+            {
+                WrapPanel wp = (WrapPanel)Board.Children[i + 1];
+                wp.Children.RemoveRange(1, bots[i].Cards.Count);
+                for (int j = 0; j < 2; j++)
+                {
+                    if (bots[i].Cards.Count > 0)
+                    {
+                        wp.Children.Add(LoadImage(bots[i].Cards[j].ImagePath, wp_responsive.ActualHeight, (wp_responsive.ActualWidth * ratio) / 3.5));
+                    }
+                }
+            }
+        }
+
+        public void ResetCards()
+        {
+            
             for (int i = 0; i < bots.Count; i++)
             {
                 WrapPanel wp = (WrapPanel)Board.Children[i + 1];
