@@ -20,6 +20,7 @@ namespace Poker
         int currentZseton;
         int startingMoney;
         int numberofbots;
+        int raisedMoney = 0;
         List<Bot> bots;
         List<Card> cards;
         double ratio = 0.688;
@@ -529,33 +530,68 @@ namespace Poker
 
         private void WagerMoney(Bot Player)
         {
-            if (player.Money>=20)
+            if (raisedMoney>0)
             {
-                moneyInPlay += baseMoney;
-                Player.Money -= baseMoney;
-                if (Player == player)
+                if (player.Money-raisedMoney>0)
                 {
-                    ZsetonSlider.Maximum = player.Money;
+                    moneyInPlay += raisedMoney;
+                    Player.Money -= raisedMoney;
+                    if (Player == player)
+                    {
+                        ZsetonSlider.Maximum = player.Money;
+                    }
+                    WrapPanel wp = (WrapPanel)Board.Children[Player.Num];
+                    Label label = (Label)wp.Children[0];
+                    lb_moneyInPlay.Content = $"{moneyInPlay}";
+                    label.Content = $"{Player.Money}";         
                 }
-                WrapPanel wp = (WrapPanel)Board.Children[Player.Num];
-                Label label = (Label)wp.Children[0];
-                lb_moneyInPlay.Content = $"{moneyInPlay}";
-                label.Content = $"{Player.Money}";         
+                else if (player.Money-raisedMoney<0)
+                {
+                    moneyInPlay += player.Money;
+                    Player.Money -= player.Money;
+                    if (Player == player)
+                    {
+                        ZsetonSlider.Maximum = player.Money;
+                    }
+                    WrapPanel wp = (WrapPanel)Board.Children[Player.Num];
+                    Label label = (Label)wp.Children[0];
+                    lb_moneyInPlay.Content = $"{moneyInPlay}";
+                    label.Content = $"{Player.Money}";
+                    raised = false;
 
+                }
             }
             else
             {
-                moneyInPlay += player.Money;
-                Player.Money -= player.Money;
-                if (Player == player)
+                if (player.Money>=20)
                 {
-                    ZsetonSlider.Maximum = player.Money;
+                    moneyInPlay += baseMoney;
+                    Player.Money -= baseMoney;
+                    if (Player == player)
+                    {
+                        ZsetonSlider.Maximum = player.Money;
+                    }
+                    WrapPanel wp = (WrapPanel)Board.Children[Player.Num];
+                    Label label = (Label)wp.Children[0];
+                    lb_moneyInPlay.Content = $"{moneyInPlay}";
+                    label.Content = $"{Player.Money}";
+                    ZsetonSliderValue.Content = player.Money;
+
                 }
-                WrapPanel wp = (WrapPanel)Board.Children[Player.Num];
-                Label label = (Label)wp.Children[0];
-                lb_moneyInPlay.Content = $"{moneyInPlay}";
-                label.Content = $"{Player.Money}";
-                ZsetonSliderValue.Content = player.Money;
+                else
+                {
+                    moneyInPlay += player.Money;
+                    Player.Money -= player.Money;
+                    if (Player == player)
+                    {
+                        ZsetonSlider.Maximum = player.Money;
+                    }
+                    WrapPanel wp = (WrapPanel)Board.Children[Player.Num];
+                    Label label = (Label)wp.Children[0];
+                    lb_moneyInPlay.Content = $"{moneyInPlay}";
+                    label.Content = $"{Player.Money}";
+                    ZsetonSliderValue.Content = player.Money;
+                }
             }
         }
 
@@ -593,6 +629,7 @@ namespace Poker
                         if (baseMoney == 20)
                         {
                             baseMoney = random.Next(baseMoney, bots[i].Money / 4);
+                            raisedMoney= baseMoney;
                         }
                         WagerMoney(bots[i]);
                         btn_check.Content = "Call";
@@ -626,6 +663,7 @@ namespace Poker
                 });
                 IsCall = false;
                 baseMoney = 20;
+                
             }
             if (CanAdvance)
             {
@@ -735,6 +773,7 @@ namespace Poker
                     }
                 }
             }
+            isPlayerFolded= false;
         }
 
         public void ResetCards()
