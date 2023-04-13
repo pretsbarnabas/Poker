@@ -31,6 +31,7 @@ namespace Poker
         Bot dealer;
         bool IsCall = true;
         bool CanAdvance = false;
+        bool isPlayerFolded = false;
 
         public Game()
         {
@@ -521,6 +522,7 @@ namespace Poker
             ToggleButtons(false);
             wp_player.Children.RemoveRange(1, wp_player.Children.Count);
             raised = false;
+            isPlayerFolded= true;
             Thread thread = new Thread(BotsMove);
             thread.Start();
         }
@@ -715,7 +717,10 @@ namespace Poker
         private void RevealCards()
         {
             List<Bot> players = new(bots);
+            if (!isPlayerFolded)
+            {
             players.Add(player);
+            }
             Bot wnr = GetWinner(players);
             GameEnd(wnr);
             for (int i = 0; i < bots.Count; i++)
